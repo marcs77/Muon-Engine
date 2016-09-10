@@ -5,11 +5,14 @@ x añadir clase color
 - typedefs
 x map de uniform locations
 x añadir anchor al renderable2d  
-- font rendering
+[] font rendering
 - texture regions/atlas
 x cambiar directorios de release, debug ...
 - cámara
 - look at matrix
+- more matrix operations
+- mat3
+-
 MEDIO PLAZO
 - transform
 - mejorar log.h
@@ -24,5 +27,5 @@ LARGO PLAZO
 - game framework
 - sistema de eventos
 - soporte vulcan, dx
-- usar cmake
-- soporte linux
+x usar cmake
+x soporte linux
