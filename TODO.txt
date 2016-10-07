@@ -28,4 +28,4 @@ LARGO PLAZO
 - sistema de eventos
 - soporte vulcan, dx
 x usar cmake
-x soporte linux
+[] soporte linux
