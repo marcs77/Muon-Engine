@@ -40,3 +40,6 @@ add_subdirectory (core)
 if(BUILD_TESTGAME)
 	add_subdirectory (testgame)
 endif(BUILD_TESTGAME)
+
+file(COPY ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/FreeImage.dll DESTINATION ${PROJECT_BINARY_DIR}/workingDir)
+file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${PROJECT_BINARY_DIR}/workingDir)
