@@ -37,7 +37,8 @@ macro(CREATE_DEMO _target _sources)
     target_link_libraries(${_target}
         freetype-gl-hb
         ${OPENGL_LIBRARY}
-        ${GLFW3_LIBRARY}
+        glfw
+        ${GLFW_LIBRARIES}
         ${FREETYPE_LIBRARIES}
         ${HARFBUZZ_LIBRARIES}
         ${GLEW_LIBRARY}
@@ -51,16 +52,11 @@ macro(CREATE_DEMO _target _sources)
     endif()
 endmacro()
 
-find_package(glfw3 REQUIRED)
 find_package(HarfBuzz REQUIRED)
 
 include_directories(
-    ${GLFW3_INCLUDE_DIR}
+    ../../glfw/include
     ${HARFBUZZ_INCLUDE_DIRS}
-)
-
-link_directories(
-    ${GLFW3_LIBRARY_DIR}
 )
 
 set(FREETYPE_GL_HB_HDR

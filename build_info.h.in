@@ -1,0 +1,2 @@
+#define ME_VERSION_MAJOR @MuonEngine_VERSION_MAJOR@
+#define ME_VERSION_MINOR @MuonEngine_VERSION_MINOR@

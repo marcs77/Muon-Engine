@@ -42,7 +42,7 @@ set(CMAKE_MODULE_PATH
 message(STATUS "Building for ${CMAKE_SYSTEM_NAME} target system")
 message(STATUS "Building with ${CMAKE_C_COMPILER_ID} compiler")
 
-set(freetype-gl_WITH_GLEW_DEFAULT ON)
+set(freetype-gl_WITH_GLEW_DEFAULT OFF)
 
 if((${CMAKE_SYSTEM_NAME} MATCHES "Darwin") OR
     (${CMAKE_SYSTEM_NAME} MATCHES "Android"))
@@ -53,10 +53,10 @@ option(freetype-gl_WITH_GLEW
     "Use the GLEW library to fetch OpenGL function pointers"
     ${freetype-gl_WITH_GLEW_DEFAULT})
 option(freetype-gl_USE_VAO "Use a VAO to render a vertex_buffer instance (required for forward compatible OpenGL 3.0 contexts)" OFF)
-option(freetype-gl_BUILD_DEMOS "Build the freetype-gl example programs" ON)
+option(freetype-gl_BUILD_DEMOS "Build the freetype-gl example programs" OFF)
 option(freetype-gl_BUILD_APIDOC "Build the freetype-gl API documentation" ON)
 option(freetype-gl_BUILD_HARFBUZZ "Build the freetype-gl harfbuzz support (experimental)" OFF)
-option(freetype-gl_BUILD_MAKEFONT "Build the makefont tool" ON)
+option(freetype-gl_BUILD_MAKEFONT "Build the makefont tool" OFF)
 
 include(CheckIncludeFile)
 
@@ -83,12 +83,15 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(Freetype REQUIRED)
 
+if(freetype-gl_WITH_GLEW)
+    find_package(GLEW REQUIRED)
+endif()
+
 include_directories(
     ${OPENGL_INCLUDE_DIRS}
     ${FREETYPE_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ../glad/include
-    ../freetype-2.6/include
 )
 
 if(MSVC)
@@ -141,8 +144,6 @@ add_library(freetype-gl STATIC
     ${FREETYPE_GL_SRC}
     ${FREETYPE_GL_HDR}
 )
-
-target_link_libraries(freetype-gl ${FREETYPE_LIBRARIES})
 
 if(freetype-gl_BUILD_MAKEFONT)
     add_executable(makefont makefont.c)

@@ -1,26 +1,42 @@
+cmake_minimum_required(VERSION 2.6)
 project(MuonEngine)
-cmake_minimum_required(VERSION 3.1)
 
-find_package(Freetype REQUIRED)
+find_package(freetype REQUIRED)
 
-aux_source_directory(. SRC_LIST)
-file(GLOB_RECURSE MUONSRC ./src/*.cpp)
-file(GLOB_RECURSE MUONH ./src/*.h)
+set(MuonEngine_VERSION_MAJOR 0)
+set(MuonEngine_VERSION_MINOR 1)
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} ${MUONSRC} ${MUONH})
-add_subdirectory(./Dependencies/glfw-3.2.1)
-add_subdirectory(./Dependencies/freetype-2.6)
-add_subdirectory(./Dependencies/freetype-gl)
-#add_subdirectory(./Dependencies/FreeImage)
-include_directories(./Dependencies/glfw-3.2.1/include)
-include_directories(./Dependencies/glad/include)
-include_directories(${FREETYPE_INCLUDE_DIRS})
-include_directories(./Dependencies/freetype-gl)
-#include_directories(./Dependencies/FreeImage/Source)
+option(BUILD_TESTGAME "Build test game." ON)
 
-target_link_libraries(MuonEngine glfw ${GLFW_LIBRARIES})
-target_link_libraries(MuonEngine ${FREETYPE_LIBRARIES})
-target_link_libraries(MuonEngine freetype-gl)
-target_link_libraries(MuonEngine freeimage)
+configure_file (
+  "${PROJECT_SOURCE_DIR}/build_info.h.in"
+  "${PROJECT_BINARY_DIR}/build_info.h"
+)
 
-set (CMAKE_CXX_FLAGS "--std=c++11 ${CMAKE_CXX_FLAGS}")
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+message("cxx flags: " ${CMAKE_CXX_FLAGS})
+
+include_directories(${PROJECT_BINARY_DIR})
+
+
+#Dependencies
+add_subdirectory (dependencies/glfw)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples." FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests." FORCE)
+
+add_subdirectory (dependencies/glad)
+add_subdirectory (dependencies/freetype)
+add_subdirectory (dependencies/freetype-gl)
+
+set_property(TARGET glfw PROPERTY FOLDER "dependencies")
+set_property(TARGET glad PROPERTY FOLDER "dependencies")
+set_property(TARGET freetype PROPERTY FOLDER "dependencies")
+set_property(TARGET freetype-gl PROPERTY FOLDER "dependencies")
+
+#Engine
+add_subdirectory (core)
+if(BUILD_TESTGAME)
+	add_subdirectory (testgame)
+endif(BUILD_TESTGAME)
