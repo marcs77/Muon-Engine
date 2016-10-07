@@ -15,10 +15,10 @@ target_link_libraries(MuonCore glfw ${GLFW_LIBRARIES})
 target_link_libraries(MuonCore glad)
 target_link_libraries(MuonCore freetype)
 target_link_libraries(MuonCore freetype-gl)
-target_link_libraries(MuonCore ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/lib/freeimage)
+target_link_libraries(MuonCore ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/freeimage)
 
-link_directories(${CMAKE_SOURCE_DIR}/dependencies/FreeImage/lib)
+link_directories(${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs)
 
-file(COPY ../dependencies/FreeImage/lib/FreeImage.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+#file(COPY ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/FreeImage.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 

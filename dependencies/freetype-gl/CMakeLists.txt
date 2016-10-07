@@ -81,7 +81,7 @@ else()
 endif()
 
 find_package(OpenGL REQUIRED)
-find_package(Freetype REQUIRED)
+find_package(freetype REQUIRED)
 
 if(freetype-gl_WITH_GLEW)
     find_package(GLEW REQUIRED)
