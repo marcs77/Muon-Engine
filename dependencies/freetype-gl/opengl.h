@@ -48,7 +48,7 @@
 #elif defined(_WIN32) || defined(_WIN64)
 	#include <glad\glad.h>
 #else
-	#include <glad\glad.h>
+    #include <glad/glad.h>
 #endif
 
 #endif /* OPEN_GL_H */

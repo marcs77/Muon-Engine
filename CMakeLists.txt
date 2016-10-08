@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 2.6)
 project(MuonEngine)
 
-find_package(freetype REQUIRED)
+if(WIN32 OR WIN64)
+	find_package(freetype REQUIRED)
+else()
+	find_package(Freetype REQUIRED)
+endif()
 
 set(MuonEngine_VERSION_MAJOR 0)
 set(MuonEngine_VERSION_MINOR 1)
@@ -41,5 +45,8 @@ if(BUILD_TESTGAME)
 	add_subdirectory (testgame)
 endif(BUILD_TESTGAME)
 
-file(COPY ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/FreeImage.dll DESTINATION ${PROJECT_BINARY_DIR}/workingDir)
+if(WIN32 OR WIN64)
+	file(COPY ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/FreeImage.dll DESTINATION ${PROJECT_BINARY_DIR}/workingDir)
+endif()
+
 file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${PROJECT_BINARY_DIR}/workingDir)

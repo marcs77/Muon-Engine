@@ -54,7 +54,7 @@ option(freetype-gl_WITH_GLEW
     ${freetype-gl_WITH_GLEW_DEFAULT})
 option(freetype-gl_USE_VAO "Use a VAO to render a vertex_buffer instance (required for forward compatible OpenGL 3.0 contexts)" OFF)
 option(freetype-gl_BUILD_DEMOS "Build the freetype-gl example programs" OFF)
-option(freetype-gl_BUILD_APIDOC "Build the freetype-gl API documentation" ON)
+option(freetype-gl_BUILD_APIDOC "Build the freetype-gl API documentation" OFF)
 option(freetype-gl_BUILD_HARFBUZZ "Build the freetype-gl harfbuzz support (experimental)" OFF)
 option(freetype-gl_BUILD_MAKEFONT "Build the makefont tool" OFF)
 
@@ -81,7 +81,11 @@ else()
 endif()
 
 find_package(OpenGL REQUIRED)
-find_package(freetype REQUIRED)
+if(WIN32 OR WIN64)
+	find_package(freetype REQUIRED)
+else()
+	find_package(Freetype REQUIRED)
+endif()
 
 if(freetype-gl_WITH_GLEW)
     find_package(GLEW REQUIRED)
@@ -91,7 +95,7 @@ include_directories(
     ${OPENGL_INCLUDE_DIRS}
     ${FREETYPE_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ../glad/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../glad/include
 )
 
 if(MSVC)
@@ -145,6 +149,8 @@ add_library(freetype-gl STATIC
     ${FREETYPE_GL_HDR}
 )
 
+target_link_libraries(freetype-gl freetype)
+
 if(freetype-gl_BUILD_MAKEFONT)
     add_executable(makefont makefont.c)
 
@@ -164,7 +170,7 @@ if(freetype-gl_BUILD_MAKEFONT)
 endif()
 
 if(freetype-gl_BUILD_APIDOC)
-    add_subdirectory(doc)
+#    add_subdirectory(doc)
 endif()
 
 if(freetype-gl_BUILD_DEMOS)

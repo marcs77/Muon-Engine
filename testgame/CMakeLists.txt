@@ -11,5 +11,7 @@ include_directories (../dependencies/freetype-gl)
 
 add_executable (TestGame ${MUON_GAME_SRC} ${MUON_GAME_INCLUDE})
 
-target_link_libraries (TestGame MuonCore)
+target_link_libraries (TestGame freetype MuonCore)
+set_property(TARGET TestGame PROPERTY CXX_STANDARD 11)
+
 
