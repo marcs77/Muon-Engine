@@ -1,31 +1,30 @@
-CORTO PLAZO
+
 x texture arrays
 x delta time
-x añadir clase color
+x adding color class
 - typedefs
-x map de uniform locations
-x añadir anchor al renderable2d  
+x uniform location map
+x adding anchor to renderable2d  
 [] font rendering
 - texture regions/atlas
-x cambiar directorios de release, debug ...
-- cámara
+- camera
 - look at matrix
 - more matrix operations
 - mat3
--
-MEDIO PLAZO
-- transform
-- mejorar log.h
+
+- transforms
+- improve log.h
 - shader manager
 - materials
 - model loader
-- iluminación (Phong shading)
-LARGO PLAZO
+- ilumination (Phong shading)
+
+
 - blending
 - cube maps
 - component system
 - game framework
-- sistema de eventos
-- soporte vulcan, dx
-x usar cmake
-[] soporte linux
+- event system
+- soporte vulcan, dx, maybe
+x use cmake
+x linux support
