@@ -19,3 +19,6 @@ $ sudo apt-get install libfreeimage3 libfreeimage-dev
 ### Build Instructions (TODO)
  - Windows: Run CMakeBuild.bat, it will generate the Visual Studio files.
  - Linux: Run LinuxCMake.sh, it will generate the necessary Makefiles. 
+
+### Notes
+The CMakeLists.txt generates automatically a working directory (workingDir) inside the build folder, which contains the copied resources and dlls.
