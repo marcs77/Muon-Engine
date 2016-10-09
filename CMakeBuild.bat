@@ -1,4 +1,4 @@
 mkdir build
 cd build
-cmake .. -DBUILD_TESTGAME=ON
+cmake .. %* -DBUILD_TESTGAME=ON
 pause
