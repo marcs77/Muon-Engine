@@ -21,7 +21,6 @@ int main(int argc, char* args[])
 	Window w("Muon Engine v0.01", 960, 540);
 
 	if (!w.isRunning()) {
-		system("pause");
 		return -1;
 	}
 
@@ -33,10 +32,11 @@ int main(int argc, char* args[])
 	glfwSwapInterval(0);
 
 	TextureManager texManager;
+	FontManager fontManager;
 
 	Texture* t = texManager.loadTexture("resources/textures/test.png", "test");
 	Texture* t2 = texManager.loadTexture("resources/textures/test2.png", "test2");
-	Texture* t3 = texManager.loadTexture("resources/textures/fat.jpg", "test3");
+	Texture* t3 = texManager.loadTexture("resources/textures/fat.jpg", "fat");
 
 	Shader shader("resources/shaders/basicVertex.glsl", "resources/shaders/basicFragment.glsl");
 
@@ -45,9 +45,10 @@ int main(int argc, char* args[])
 	TileLayer tileLayer(&batchRenderer, &shader);
 	BasicLayer textLayer(&batchRenderer, &shader, Mat4::ortho(0, w.getWidth(), w.getHeight(), 0, -2, 10));
 
-	Font font;
+	Font* font = fontManager.load("resources/fonts/unifont.ttf");
 
-	Label l("xdDdDfDghfGuil97687Ñ", 0, 40, &font);
+
+	Label l("xdDdDfDghfGuil97687Ñ", 0, 40, font);
 
 	Vec3f pos(-8, 5, 0);
 
@@ -74,7 +75,6 @@ int main(int argc, char* args[])
 
 	INFO("Sprites: " << count);
 
-	//#else
 	Group *g = new Group(Mat4::translation(pos));
 	Group *g2 = new Group(Mat4::translation(Vec3f(0, 0, 0)));
 	g->add(new Sprite(0, 0, 5, 3, Vec4f(1, 1, 1, 1), NULL, Vec2f(-0.3f, 0.5f)));

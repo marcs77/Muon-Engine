@@ -114,7 +114,7 @@ namespace muon {
 			Mat4 ortho;
 			*ortho.getP(0,0) = 2.0 / (right - left);
 			*ortho.getP(1,1) = 2.0 / (top - bot);
-			*ortho.getP(2,2) = 2.0 / (far - near);
+			*ortho.getP(2,2) = - 2.0 / (far - near);
 			*ortho.getP(3,3) = 1;
 
 			*ortho.getP(3, 0) = (-right - left) / (right - left);
