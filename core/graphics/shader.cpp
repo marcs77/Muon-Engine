@@ -3,30 +3,20 @@ namespace muon {
 	namespace graphics {
 
 		Shader::Shader(const char * vertexPath, const char * fragmentPath) :
-			_vertexPath(vertexPath), _fragmentPath(fragmentPath)
+            _vertexPath(vertexPath), _fragmentPath(fragmentPath), shaderId(load())
 		{
-			_shaderId = load();
+
 		}
 
 		Shader::~Shader()
 		{
-			glDeleteProgram(_shaderId);
-		}
-
-		void Shader::use() const
-		{
-			glUseProgram(_shaderId);
-		}
-
-		void Shader::disable() const
-		{
-			glUseProgram(0);
+            glDeleteProgram(shaderId);
 		}
 
 		GLint Shader::getUniformLocation(const GLchar * name)
 		{
 			if (_uniforms.find(name) == _uniforms.end()) {
-				_uniforms[name] = glGetUniformLocation(_shaderId, name);
+                _uniforms[name] = glGetUniformLocation(shaderId, name);
 			}
 			return _uniforms[name];
 		}

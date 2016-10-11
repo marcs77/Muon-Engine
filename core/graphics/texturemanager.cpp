@@ -15,8 +15,6 @@ namespace muon {
 #ifdef FREEIMAGE_LIB
 			FreeImage_DeInitialise();
 #endif
-
-			unloadAllTextures();
 		}
 
 		Texture* TextureManager::loadTexture(

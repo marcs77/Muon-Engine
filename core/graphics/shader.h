@@ -15,7 +15,7 @@ namespace muon {
 	namespace graphics {
 		class Shader {
 		private:
-			GLuint _shaderId;
+
 			const char *_vertexPath, *_fragmentPath;
 			GLuint load();
 			GLuint loadShader(GLuint type, const char* path, bool &success);
@@ -25,10 +25,7 @@ namespace muon {
 			Shader(const char* vertexPath, const char* fragmentPath);
 			~Shader();
 
-			inline GLuint getId() const { return _shaderId; };
-
-			void use() const;
-			void disable() const;
+            const GLuint shaderId;
 
 			GLint getUniformLocation(const GLchar* name);
 
