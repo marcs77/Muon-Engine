@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "../util/log.h"
+#include "../util/color.h"
 
 namespace muon { namespace graphics {
 	class Window {
@@ -13,10 +14,13 @@ namespace muon { namespace graphics {
 		GLFWwindow* _window;
 		bool _running;
 
+        Color _clearColor;
+
 		bool init();
 
+
 	public:
-		Window(const char* title, int width, int height);
+        Window(const char* title, int width, int height, Color clearColor = Color(COL_PURPLE));
 		~Window();
 		
 		void update();
@@ -24,6 +28,10 @@ namespace muon { namespace graphics {
 		bool isRunning() const;
 		void destroy() const;
 		void close();
+
+        void setClearColor(const Color& c);
+
+        inline const Color* getClearColor() const { return &_clearColor; }
 
 		inline int getWidth() const { return _width; }
 		inline int getHeight() const { return _height; }

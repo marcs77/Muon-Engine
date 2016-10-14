@@ -18,7 +18,6 @@ void main() {
 	//vec3 p = f_in.pos+vec3(0.5, 0.5, 0.5);
 	vec4 basecolor = f_in.col;
 	float intensity = 1.0 / length(f_in.wpos.xy - lightpos.xy);
-	
 	intensity = 1.0;
 
 	if(f_in.tid >= 0.0) {

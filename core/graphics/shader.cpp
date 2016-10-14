@@ -63,15 +63,52 @@ namespace muon {
 			GLuint program = glCreateProgram();
 			bool success = false;
 			GLuint vertex = loadShader(GL_VERTEX_SHADER, _vertexPath, success);
-			if (!success) { ERR("Failed to compile vertex shader: "); return 0; }
+            if (!success) {
+                ERR("Failed to compile vertex shader. ");
+                glDeleteProgram(program);
+                return 0;
+            }
 			GLuint fragment = loadShader(GL_FRAGMENT_SHADER, _fragmentPath, success);
-			if (!success) { ERR("Failed to compile fragment shader: "); return 0; }
+            if (!success) {
+                ERR("Failed to compile fragment shader. ");
+                glDeleteProgram(program);
+                return 0;
+            }
 
 			glAttachShader(program, vertex);
 			glAttachShader(program, fragment);
 
+            GLint result;
+
 			glLinkProgram(program);
-			glValidateProgram(program);
+            glGetProgramiv(program, GL_LINK_STATUS, &result);
+
+            if(result == GL_FALSE) {
+                GLint msglen;
+                glGetProgramiv(program, GL_INFO_LOG_LENGTH, &msglen);
+                std::vector<char> error(msglen);
+                glGetProgramInfoLog(program, msglen, &msglen, &error[0]);
+                ERR("OpenGL: /n" << &error[0]);
+                glDeleteProgram(program);
+                glDeleteShader(vertex);
+                glDeleteShader(fragment);
+                return 0;
+            }
+
+            glValidateProgram(program);
+            glGetProgramiv(program, GL_VALIDATE_STATUS, &result);
+
+            if(result == GL_FALSE) {
+                GLint msglen;
+                glGetProgramiv(program, GL_INFO_LOG_LENGTH, &msglen);
+                std::vector<char> error(msglen);
+                glGetProgramInfoLog(program, msglen, &msglen, &error[0]);
+                ERR("OpenGL: /n" << &error[0]);
+                glDeleteProgram(program);
+                glDeleteShader(vertex);
+                glDeleteShader(fragment);
+                return 0;
+            }
 
 			glDeleteShader(vertex);
 			glDeleteShader(fragment);
@@ -85,7 +122,7 @@ namespace muon {
 			GLuint id = glCreateShader(type);
 			std::string sr = read_file(path);
 			if (sr.empty()) {
-				ERR("Could not load shader file: " << path);
+                ERR("Empty or missing shader file: " << path);
 				glDeleteShader(id);
 				success = false;
 				return 0;

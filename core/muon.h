@@ -11,8 +11,6 @@
 #include "graphics/texturemanager.h"
 #include "graphics/window.h"
 #include "graphics/buffer/buffer.h"
-#include "graphics/buffer/buffers.h"
-#include "graphics/buffer/indexbuffer.h"
 #include "graphics/buffer/vertexarray.h"
 //#include "graphics/layer/basiclayer.h"
 //#include "graphics/layer/group.h"

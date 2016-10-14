@@ -3,8 +3,8 @@
 namespace muon {
 	namespace graphics {
 
-		Window::Window(const char * title, int width, int height) : 
-			_title(title), _width(width), _height(height)
+        Window::Window(const char * title, int width, int height, Color clearColor) :
+            _title(title), _width(width), _height(height)
 		{
 			if (!init()) {
 				_running = false;
@@ -12,6 +12,7 @@ namespace muon {
 			}
 			else {
 				_running = true;
+                setClearColor(clearColor);
 			}
 		}
 
@@ -48,10 +49,15 @@ namespace muon {
 			gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 			INFO("OpenGL: " << glGetString(GL_VERSION));
 
+            glViewport(0, 0, _width, _height);
+
 			glfwSetWindowUserPointer(_window, this);
 
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+            //TODO: Add VSYNC, fps lock, ...
+            glfwSwapInterval(0);
 
 			return true;
 		}
@@ -95,5 +101,11 @@ namespace muon {
 			win->_height = height;
 
 		}
+
+        void Window::setClearColor(const Color& c) {
+            if(!_running) return;
+            _clearColor = c;
+            glClearColor(_clearColor.getRf(), _clearColor.getGf(), _clearColor.getBf(), _clearColor.getAf());
+        }
 	}
 }

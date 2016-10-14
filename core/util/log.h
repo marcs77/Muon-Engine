@@ -4,7 +4,7 @@
 #include <iostream>
 #include <ctime>
 
-#define LOG_LEVEL 2
+#define LOG_LEVEL 3
 
 #if LOG_LEVEL >= 3
 #define DEBUG(x) std::cout << "[DEBUG]" << x << std::endl;

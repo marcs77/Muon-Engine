@@ -2,6 +2,9 @@
 
 namespace muon {
 	namespace graphics {
+
+        VertexArray* VertexArray::currentlyBoundVAO = NULL;
+
 		VertexArray::VertexArray()
 		{
 			glGenVertexArrays(1, &_arrayId);
@@ -9,32 +12,34 @@ namespace muon {
 
 		VertexArray::~VertexArray() 
 		{
-			for (size_t i = 0; i < _buffers.size(); i++)
-				delete _buffers[i];
+            glDeleteVertexArrays(1, &_arrayId);
+            //for (size_t i = 0; i < _buffers.size(); i++)
+            //    delete _buffers[i];
 
-			glDeleteVertexArrays(1, &_arrayId);
 		}
 
-		void VertexArray::addBuffer(Buffer * buffer, GLuint index)
+        void VertexArray::addVertexAttributePointer(Buffer* buffer, GLuint location, GLint attributeSize, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *offset)
+        {
+            Buffer::bind(buffer);
+            glEnableVertexAttribArray(location);
+            glVertexAttribPointer(location, attributeSize, type, normalized, stride, offset);
+
+            //Buffer::unbind(buffer->getTarget());
+        }
+
+
+        void VertexArray::bind(VertexArray* vao)
 		{
-			bind();
-			buffer->bind();
-
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, buffer->getComponentCount(), GL_FLOAT, GL_FALSE, 0, 0);
-
-			buffer->unbind();
-			unbind();
+            if(currentlyBoundVAO != vao) {
+                glBindVertexArray(vao->getId());
+                currentlyBoundVAO = vao;
+            }
 		}
 
-		void VertexArray::bind() const
+        void VertexArray::unbind()
 		{
-			glBindVertexArray(_arrayId);
-		}
-
-		void VertexArray::unbind() const
-		{
-			glBindVertexArray(0);
+            glBindVertexArray(0);
+            currentlyBoundVAO = NULL;
 		}
 
 

@@ -1,13 +1,11 @@
 #include "buffer.h"
 namespace muon {
 	namespace graphics {
-		Buffer::Buffer(GLfloat * data, GLsizei count, GLuint compCount) 
-			: _componentCount(compCount)
+
+        Buffer::Buffer(GLenum target)
+            : _target(target)
 		{
 			glGenBuffers(1, &_bufferId);
-			glBindBuffer(GL_ARRAY_BUFFER, _bufferId);
-			glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), data, GL_STATIC_DRAW);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
 		Buffer::~Buffer()
@@ -15,15 +13,27 @@ namespace muon {
 			glDeleteBuffers(1, &_bufferId);
 		}
 
-		void Buffer::bind() const
+        void Buffer::bind(Buffer* b)
 		{
-			glBindBuffer(GL_ARRAY_BUFFER, _bufferId);
+            glBindBuffer(b->_target, b->_bufferId);
 		}
 
-		void Buffer::unbind() const
+        void Buffer::unbind(GLenum target)
 		{
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindBuffer(target, 0);
 		}
+
+        void Buffer::unbind(Buffer* b)
+        {
+            unbind(b->_target);
+        }
 		
+        void Buffer::load(GLvoid *data, GLsizei size, GLenum usage)
+        {
+            bind(this);
+            glBufferData(_target, size, data, usage);
+            unbind(this);
+        }
+
 	}
 }

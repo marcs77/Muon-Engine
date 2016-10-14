@@ -19,19 +19,11 @@ int main(int argc, char* args[])
 	INFO("Muon Engine Starting...");
 	INFO("Version " << ME_VERSION_MAJOR << "." << ME_VERSION_MINOR);
 
-	Window w("Muon Engine v0.01", 960, 540);
+    Window w("Muon Engine v0.01", 960, 540, Color(COL_LIGHT_GREY));
 
 	if (!w.isRunning()) {
 		return -1;
-	}
-
-	//glClearColor(0.5, 0.3, 0.8, 1);
-
-	Color c(COL_PURPLE);
-
-    //TODO: Change
-	glClearColor(c.getRf(), c.getGf(), c.getBf(), c.getAf());
-	glfwSwapInterval(0);
+    }
 
     TextureManager texManager;
 
@@ -39,19 +31,9 @@ int main(int argc, char* args[])
     Texture* t2 = texManager.loadTexture("resources/textures/test2.png", "test2");
     Texture* t3 = texManager.loadTexture("resources/textures/fat.jpg", "fat");
 
-    Shader* shader = new Shader("resources/shaders/basicVertex.glsl", "resources/shaders/basicFragment.glsl");
-
-	Vec3f pos(-8, 5, 0);
-
-	srand((unsigned int)time(NULL));
-
-
+    Shader* shader = new Shader("resources/shaders/testVertex.glsl", "resources/shaders/testFragment.glsl");
 
 	Input::init(w);
-
-	float f = 0;
-	float z = 0;
-	float th = 0;
 
 	Timer fps;
 	Timer delta;
@@ -61,6 +43,32 @@ int main(int argc, char* args[])
 	float r = w.getWidth() / 60.0f;
 	float b = w.getHeight() / 60.0f;
 
+    GLfloat vertices[] = {
+         0.5f,  0.4f, 0.0f, 0.0f, 1.0f, 1.0f,  // Top Right
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f,  // Bottom Right
+        -0.5f, -0.2f, 0.0f, 1.0f, 1.0f, 0.0f,  // Bottom Left
+        -0.7f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,   // Top Left
+    };
+
+    GLuint indices[] = {
+        0,1,3,
+        3,2,1
+    };
+
+    VertexArray* vao = new VertexArray();
+    Buffer* vbo = new Buffer();
+    Buffer* ebo = new Buffer(GL_ELEMENT_ARRAY_BUFFER);
+
+    vbo->load(vertices, sizeof(vertices));
+    ebo->load(indices, sizeof(indices));
+
+    VertexArray::bind(vao);
+    vao->addVertexAttributePointer(vbo, 0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)0);
+    vao->addVertexAttributePointer(vbo, 1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)12);
+    Buffer::bind(ebo);
+    VertexArray::unbind();
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
 	while (w.isRunning()) {
@@ -79,14 +87,17 @@ int main(int argc, char* args[])
 
 		//Update
 
-        ShaderManager::useShader(shader);
-		Vec2f mpos = Input::getMousePosition();
-        shader->setUniform2f("lightpos", Vec2f(mpos.x * r / (float)w.getWidth()*2.0f - r, (b - mpos.y * b / (float)w.getHeight()) * 2 - b));
-
-		th += 0.5f;
+        //ShaderManager::useShader(shader);
+        //Vec2f mpos = Input::getMousePosition();
+        //shader->setUniform2f("lightpos", Vec2f(mpos.x * r / (float)w.getWidth()*2.0f - r, (b - mpos.y * b / (float)w.getHeight()) * 2 - b));
 
 		//Rendering
 
+        ShaderManager::useShader(shader);
+        VertexArray::bind(vao);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        VertexArray::unbind();
+		
 
 		//End rendering
 		w.update();
@@ -100,6 +111,10 @@ int main(int argc, char* args[])
 		}
 		dt = delta.elapsed();
 	}
+
+    delete vao;
+    delete vbo;
+    delete ebo;
 
     texManager.unloadAllTextures();
 

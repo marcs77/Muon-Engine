@@ -8,18 +8,22 @@ namespace muon {
 		class Buffer
 		{
 		public:
-			Buffer(GLfloat* data, GLsizei count, GLuint compCount);
+            Buffer(GLenum target = GL_ARRAY_BUFFER);
 			~Buffer();
 
-			inline GLuint getBufferId() const { return _bufferId; }
-			inline GLuint getComponentCount() const { return _componentCount; }
+            void load(GLvoid* data, GLsizei size, GLenum usage = GL_STATIC_DRAW);
 
-			void bind() const;
-			void unbind() const;
+			inline GLuint getBufferId() const { return _bufferId; }
+            inline GLenum getTarget() const { return _target; }
+            //inline GLuint getCount() const { return _count; }
+
+            static void bind(Buffer* b);
+            static void unbind(GLenum target);
+            static void unbind(Buffer* b);
 
 		private:
 			GLuint _bufferId;
-            GLuint _componentCount; //float or Vec2, Vec3...
+            GLenum _target;
 		};
 	}
 }

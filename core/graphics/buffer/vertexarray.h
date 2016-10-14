@@ -10,14 +10,18 @@ namespace muon {
 		class VertexArray {
 		private:
 			GLuint _arrayId;
-			std::vector<Buffer*> _buffers;
 		public:
 			VertexArray();
 			~VertexArray();
 
-			void addBuffer(Buffer* buffer, GLuint index);
-			void bind() const;
-			void unbind() const;
+            void addVertexAttributePointer(Buffer* buffer, GLuint location, GLint attributeSize, GLenum type,
+                                           GLboolean normalized, GLsizei stride, const GLvoid* offset);
+
+            inline GLuint getId() const { return _arrayId; }
+
+            static VertexArray* currentlyBoundVAO;
+            static void bind(VertexArray* vao);
+            static void unbind();
 		};
 	}
 }
