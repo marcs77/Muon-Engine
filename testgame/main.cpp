@@ -52,8 +52,6 @@ int main(int argc, char* args[])
 
 	Vec3f pos(-8, 5, 0);
 
-
-
 	srand((unsigned int)time(NULL));
 
 	read_file("killme");

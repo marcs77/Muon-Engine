@@ -98,9 +98,9 @@ namespace muon {
 			for (int y = 0; y < 4; y++) {
 				stream << "[ ";
 				for (int x = 0; x < 4; x++) {
-					stream << get(x, y) << '/t';
+					stream << get(x, y) << '\t';
 				}
-				stream << "]/n";
+				stream << "]\n";
 			}
 		}
 
