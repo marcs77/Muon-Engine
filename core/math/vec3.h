@@ -15,6 +15,7 @@ namespace muon {
 
 			Vec3();
 			Vec3(const Vec3& v);
+			Vec3(const Vec2& v, const T& z);
 			Vec3(const T& x, const T& y, const T& z);
 
 			Vec3 operator+(const Vec3 &v2) const;
@@ -63,6 +64,11 @@ namespace muon {
 
 		template<typename T>
 		inline Vec3<T>::Vec3(const Vec3 & v) : x(v.x), y(v.y), z(v.z) {	}
+
+		template<class T>
+		inline Vec3<T>::Vec3(const Vec2 & v, const T & z) : x(v.x), y(v.y), z(z)
+		{
+		}
 
 		template<typename T>
 		inline Vec3<T>::Vec3(const T & x, const T & y, const T & z) : x(x), y(y), z(z) { }
