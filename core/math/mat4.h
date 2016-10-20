@@ -52,12 +52,13 @@ namespace muon {
 			static Mat4 identity();
 			static Mat4 ortho(float left, float right, float bot, float top, float near, float far);
 			static Mat4 perspective(float fov, float aspectRatio, float near, float far);
+
 			static Mat4 multiply(const Mat4& l, const Mat4& r);
 
 			static Mat4 translation(const Vec3f& pos);
 			static Mat4 rotation(const Vec3f& euler);
 			static Mat4 scale(const Vec3f& scale);
-
+			static Mat4 lookAt(const Vec3f& camPosition, const Vec3f& target, const Vec3f& up = Vec3f(0, 1, 0));
 			
 		};
 	}
