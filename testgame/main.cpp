@@ -44,10 +44,10 @@ int main(int argc, char* args[])
 	float b = w.getHeight() / 60.0f;
 
     GLfloat vertices[] = {
-         0.5f,  0.4f, 0.0f, 0.0f, 1.0f, 1.0f,  // Top Right
+         0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f,  // Top Right
          0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f,  // Bottom Right
-        -0.5f, -0.2f, 0.0f, 1.0f, 1.0f, 0.0f,  // Bottom Left
-        -0.7f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,   // Top Left
+        -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  // Bottom Left
+        -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // Top Left
     };
 
     GLuint indices[] = {
@@ -70,6 +70,13 @@ int main(int argc, char* args[])
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	ShaderManager::useShader(shader);
+	ShaderManager::setProjectionMatrix(Mat4::perspective(80, w.getAspectRatio(), 0.1f, 500.0f));
+	ShaderManager::setViewMatrix(Mat4::identity());
+	
+
+	Vec3f position(0, 0, -2.0f);
+
 
 	while (w.isRunning()) {
 
@@ -80,9 +87,11 @@ int main(int argc, char* args[])
 
 		//Input checks
 		if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) w.close();
-
-		//Pre-render
-		w.clear();
+		
+		if (Input::isKeyHeld(GLFW_KEY_W)) position -= Vec3f(0, 0, 2 * dt);
+		if (Input::isKeyHeld(GLFW_KEY_S)) position += Vec3f(0, 0, 2 * dt);
+		if (Input::isKeyHeld(GLFW_KEY_A)) position -= Vec3f(2 * dt, 0, 0);
+		if (Input::isKeyHeld(GLFW_KEY_D)) position += Vec3f(2 * dt, 0, 0);
 
 
 		//Update
@@ -91,9 +100,11 @@ int main(int argc, char* args[])
         //Vec2f mpos = Input::getMousePosition();
         //shader->setUniform2f("lightpos", Vec2f(mpos.x * r / (float)w.getWidth()*2.0f - r, (b - mpos.y * b / (float)w.getHeight()) * 2 - b));
 
-		//Rendering
+		//Pre-render
+		w.clear();
 
-        ShaderManager::useShader(shader);
+		//Rendering
+		ShaderManager::setModelMatrix(Mat4::translation(position));
         VertexArray::bind(vao);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         VertexArray::unbind();

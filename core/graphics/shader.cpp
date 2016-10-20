@@ -15,10 +15,10 @@ namespace muon {
 
 		GLint Shader::getUniformLocation(const GLchar * name)
 		{
-			if (_uniforms.find(name) == _uniforms.end()) {
-                _uniforms[name] = glGetUniformLocation(shaderId, name);
+			if (_shaderUniforms.find(name) == _shaderUniforms.end()) {
+				_shaderUniforms[name] = glGetUniformLocation(shaderId, name);
 			}
-			return _uniforms[name];
+			return _shaderUniforms[name];
 		}
 
 		void Shader::setUniform1f(const GLchar * name, float val)
@@ -36,25 +36,31 @@ namespace muon {
 			glUniform1iv(getUniformLocation(name), count, val);
 		}
 
-		void Shader::setUniform2f(const GLchar * name, math::Vec2f val)
+		void Shader::setUniform2f(const GLchar * name, const math::Vec2f& val)
 		{
 			glUniform2f(getUniformLocation(name), val.x, val.y);
 		}
 
-		void Shader::setUniform3f(const GLchar * name, math::Vec3f val)
+		void Shader::setUniform3f(const GLchar * name, const math::Vec3f& val)
 		{
 			glUniform3f(getUniformLocation(name), val.x, val.y, val.z);
 		}
 
-		void Shader::setUniform4f(const GLchar * name, math::Vec4f val)
+		void Shader::setUniform4f(const GLchar * name, const math::Vec4f& val)
 		{
 			glUniform4f(getUniformLocation(name), val.x, val.y, val.z, val.w);
 		}
 
-		void Shader::setUniformMat4(const GLchar * name, math::Mat4 val)
+		void Shader::setUniformMat4(const GLchar * name, const math::Mat4& val)
 		{
 			glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, val.m);
 		}
+
+		void Shader::setUniformColor(const GLchar * name, const Color & val)
+		{
+			setUniform4f(name, val.getColor4f());
+		}
+
 
 
 

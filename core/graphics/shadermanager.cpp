@@ -17,5 +17,29 @@ namespace graphics {
         glUseProgram(0);
     }
 
+	void ShaderManager::setProjectionMatrix(const math::Mat4 & matrix)
+	{
+		setUniformMatrix("pr_matrix", matrix);
+	}
+
+	void ShaderManager::setViewMatrix(const math::Mat4 & matrix)
+	{
+		setUniformMatrix("vw_matrix", matrix);
+	}
+
+	void ShaderManager::setModelMatrix(const math::Mat4 & matrix)
+	{
+		setUniformMatrix("ml_matrix", matrix);
+	}
+
+	void ShaderManager::setUniformMatrix(const GLchar * name, const math::Mat4& matrix)
+	{
+		if (_currentShader) {
+			_currentShader->setUniformMat4(name, matrix);
+		}
+		else {
+			ERR("Can't load uniform: no active shader.")
+		}
+	}
 }
 }

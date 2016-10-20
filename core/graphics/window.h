@@ -14,27 +14,29 @@ namespace muon { namespace graphics {
 		GLFWwindow* _window;
 		bool _running;
 
-        Color _clearColor;
+		Color _clearColor;
 
 		bool init();
 
 
 	public:
-        Window(const char* title, int width, int height, Color clearColor = Color(COL_PURPLE));
+		Window(const char* title, int width, int height, Color clearColor = Color(COL_PURPLE));
 		~Window();
-		
+
 		void update();
 		void clear() const;
 		bool isRunning() const;
 		void destroy() const;
 		void close();
 
-        void setClearColor(const Color& c);
+		void setClearColor(const Color& c);
 
-        inline const Color* getClearColor() const { return &_clearColor; }
+		inline const Color* getClearColor() const { return &_clearColor; }
 
 		inline int getWidth() const { return _width; }
 		inline int getHeight() const { return _height; }
+
+		inline float getAspectRatio() const { return (float)_width / (float)_height; }
 
 		inline GLFWwindow* getWindow() const { return _window; }
 
