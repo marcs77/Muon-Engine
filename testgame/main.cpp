@@ -44,15 +44,22 @@ int main(int argc, char* args[])
 	float b = w.getHeight() / 60.0f;
 
     GLfloat vertices[] = {
-         0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f,  // Top Right
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f,  // Bottom Right
-        -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,  // Bottom Left
-        -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // Top Left
+         0.5f,  0.5f, 0.5f, 0.0f, 1.0f, 1.0f,  // Top Right F
+         0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f,  // Bottom Right F
+        -0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f,  // Bottom Left F
+        -0.5f,  0.5f, 0.5f, 0.0f, 0.0f, 1.0f,  // Top Left F
+		 0.5f,  0.5f,-0.5f, 0.0f, 1.0f, 1.0f,  // Top Right F
+		 0.5f, -0.5f,-0.5f, 1.0f, 0.0f, 1.0f,  // Bottom Right F
+		-0.5f, -0.5f,-0.5f, 1.0f, 1.0f, 0.0f,  // Bottom Left F
+		-0.5f,  0.5f,-0.5f, 0.0f, 0.0f, 1.0f,  // Top Left F
     };
 
     GLuint indices[] = {
         0,1,3,
-        3,2,1
+        3,2,1,
+		4,5,7,
+		7,6,5,
+
     };
 
     VertexArray* vao = new VertexArray();
@@ -72,10 +79,13 @@ int main(int argc, char* args[])
 
 	ShaderManager::useShader(shader);
 	ShaderManager::setProjectionMatrix(Mat4::perspective(80, w.getAspectRatio(), 0.1f, 500.0f));
-	ShaderManager::setViewMatrix(Mat4::identity());
+	
 	
 
 	Vec3f position(0, 0, -2.0f);
+	float angle = 0;
+
+	Mat4 view;
 
 
 	while (w.isRunning()) {
@@ -92,10 +102,18 @@ int main(int argc, char* args[])
 		if (Input::isKeyHeld(GLFW_KEY_S)) position += Vec3f(0, 0, 2 * dt);
 		if (Input::isKeyHeld(GLFW_KEY_A)) position -= Vec3f(2 * dt, 0, 0);
 		if (Input::isKeyHeld(GLFW_KEY_D)) position += Vec3f(2 * dt, 0, 0);
+		if (Input::isKeyHeld(GLFW_KEY_SPACE)) position += Vec3f(0, 2 * dt, 0);
+		if (Input::isKeyHeld(GLFW_KEY_LEFT_SHIFT)) position -= Vec3f(0, 2 * dt, 0);
 
 
 		//Update
 
+
+		//angle += dt * 1.1f;
+		//Vec3f camPos = position + Vec3f(std::cosf(angle)*3.0f, 0, std::sinf(angle)*3.0f);
+		view = Mat4::lookAt(Vec3f(), position);
+
+		ShaderManager::setViewMatrix(view);
         //ShaderManager::useShader(shader);
         //Vec2f mpos = Input::getMousePosition();
         //shader->setUniform2f("lightpos", Vec2f(mpos.x * r / (float)w.getWidth()*2.0f - r, (b - mpos.y * b / (float)w.getHeight()) * 2 - b));
@@ -106,7 +124,7 @@ int main(int argc, char* args[])
 		//Rendering
 		ShaderManager::setModelMatrix(Mat4::translation(position));
         VertexArray::bind(vao);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(GLuint), GL_UNSIGNED_INT, 0);
         VertexArray::unbind();
 		
 
