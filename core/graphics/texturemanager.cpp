@@ -87,7 +87,7 @@ namespace muon {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 			//store the texture data for OpenGL use
-			glTexImage2D(GL_TEXTURE_2D, level, GL_RGB, width, height,
+            glTexImage2D(GL_TEXTURE_2D, level, GL_RGB, width, height,
 				border, bpp == 4 ? GL_BGRA : GL_BGR, GL_UNSIGNED_BYTE, bits); //TODO: auto-detect format
 
 			//Free FreeImage's copy of the data
@@ -117,7 +117,7 @@ namespace muon {
 		bool TextureManager::unloadTexture(std::string textureName)
 		{
 			bool result(true);
-			//if this texture ID mapped, unload it's texture, and remove it from the map
+            //if this texture ID mapped, unload it's texture, and remove it from the
 			if (_textures[textureName] != NULL)
 			{
 				_textures.erase(textureName);
@@ -136,8 +136,8 @@ namespace muon {
 
 			if (_textures.size() == 0) return;
 
-			//start at the begginning of the texture map
-			std::map<std::string, Texture*>::iterator i = _textures.begin();
+            //start at the begginning of the texture
+            auto i = _textures.begin();
 
 			//Unload the textures untill the end of the texture map is found
 			

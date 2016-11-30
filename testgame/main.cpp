@@ -2,8 +2,17 @@
 #include "muon.h"
 #include "graphics/shadermanager.h"
 #include "build_info.h"
+#include "debugcam.h"
+#include "model.h"
+#include <ctime>
+#include <vector>
+#include "player.h"
 
 #define PERFORMANCE_TEST 1
+
+#define LEVEL_DISTANCE 40
+#define LEVEL_LENGTH 120
+#define LEVEL_WIDTH 5
 
 void printError(int error, const char* description);
 
@@ -13,6 +22,7 @@ int main(int argc, char* args[])
 	using namespace graphics;
 	using namespace input;
 	using namespace math;
+    using namespace muongame;
 
 	glfwSetErrorCallback(printError);
 
@@ -31,7 +41,7 @@ int main(int argc, char* args[])
     Texture* t2 = texManager.loadTexture("resources/textures/test2.png", "test2");
     Texture* t3 = texManager.loadTexture("resources/textures/fat.jpg", "fat");
 
-    Shader* shader = new Shader("resources/shaders/testVertex.glsl", "resources/shaders/testFragment.glsl");
+    Shader* shader = new Shader("resources/shaders/simpleVertex.glsl", "resources/shaders/simpleFragment.glsl");
 
 	Input::init(w);
 
@@ -40,53 +50,48 @@ int main(int argc, char* args[])
 	double dt = 0;
 	int frames = 0;
 
-	float r = w.getWidth() / 60.0f;
-	float b = w.getHeight() / 60.0f;
+    srand((unsigned int)time(NULL));
 
-    GLfloat vertices[] = {
-         0.5f,  0.5f, 0.5f, 0.0f, 1.0f, 1.0f,  // Top Right F
-         0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f,  // Bottom Right F
-        -0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f,  // Bottom Left F
-        -0.5f,  0.5f, 0.5f, 0.0f, 0.0f, 1.0f,  // Top Left F
-		 0.5f,  0.5f,-0.5f, 0.0f, 1.0f, 1.0f,  // Top Right F
-		 0.5f, -0.5f,-0.5f, 1.0f, 0.0f, 1.0f,  // Bottom Right F
-		-0.5f, -0.5f,-0.5f, 1.0f, 1.0f, 0.0f,  // Bottom Left F
-		-0.5f,  0.5f,-0.5f, 0.0f, 0.0f, 1.0f,  // Top Left F
+    GLfloat planeV[] {
+        0,0,0,
+        0,0,1,
+        1,0,1,
+        1,0,0,
+    };
+    GLuint planeI[] = {
+        2,3,1,
+        1,0,3,
     };
 
-    GLuint indices[] = {
-        0,1,3,
-        3,2,1,
-		4,5,7,
-		7,6,5,
+    Player::load();
 
-    };
 
-    VertexArray* vao = new VertexArray();
-    Buffer* vbo = new Buffer();
-    Buffer* ebo = new Buffer(GL_ELEMENT_ARRAY_BUFFER);
 
-    vbo->load(vertices, sizeof(vertices));
-    ebo->load(indices, sizeof(indices));
 
-    VertexArray::bind(vao);
-    vao->addVertexAttributePointer(vbo, 0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)0);
-    vao->addVertexAttributePointer(vbo, 1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(GLfloat), (GLvoid*)12);
-    Buffer::bind(ebo);
-    VertexArray::unbind();
+    Model* plane = new Model(planeV, sizeof(planeV), planeI, sizeof(planeI));
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    float theta = 0;
 
 	ShaderManager::useShader(shader);
 	ShaderManager::setProjectionMatrix(Mat4::perspective(80, w.getAspectRatio(), 0.1f, 500.0f));
 	
-	
 
-	Vec3f position(0, 0, -2.0f);
-	float angle = 0;
 
-	Mat4 view;
+    DebugCam debCam(Vec3f(0,1,1));
+    //glfwSetInputMode(w.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+    bool map[LEVEL_WIDTH*LEVEL_LENGTH];
+
+    for(int z = 0; z < LEVEL_LENGTH; z++) {
+        for(int x = 0; x < LEVEL_WIDTH; x++) {
+            map[x+LEVEL_WIDTH*z] = x != z % LEVEL_WIDTH;
+        }
+    }
+
+    int mapOffset = 0;
+    float mapScroll = 0;
+
+    Player player(Vec3f(1.5f, 0, 2.5f), map, LEVEL_WIDTH, LEVEL_LENGTH);
 
 	while (w.isRunning()) {
 
@@ -97,36 +102,52 @@ int main(int argc, char* args[])
 
 		//Input checks
 		if (Input::isKeyPressed(GLFW_KEY_ESCAPE)) w.close();
-		
-		if (Input::isKeyHeld(GLFW_KEY_W)) position -= Vec3f(0, 0, 2 * dt);
-		if (Input::isKeyHeld(GLFW_KEY_S)) position += Vec3f(0, 0, 2 * dt);
-		if (Input::isKeyHeld(GLFW_KEY_A)) position -= Vec3f(2 * dt, 0, 0);
-		if (Input::isKeyHeld(GLFW_KEY_D)) position += Vec3f(2 * dt, 0, 0);
-		if (Input::isKeyHeld(GLFW_KEY_SPACE)) position += Vec3f(0, 2 * dt, 0);
-		if (Input::isKeyHeld(GLFW_KEY_LEFT_SHIFT)) position -= Vec3f(0, 2 * dt, 0);
 
 
 		//Update
+        debCam.update(dt);
 
+        ShaderManager::setViewMatrix(debCam.viewMatrix);
+        shader->setUniform3f("camPos", debCam.position);
 
-		//angle += dt * 1.1f;
-		//Vec3f camPos = position + Vec3f(std::cosf(angle)*3.0f, 0, std::sinf(angle)*3.0f);
-		view = Mat4::lookAt(Vec3f(), position);
+        if(mapOffset + LEVEL_DISTANCE < LEVEL_LENGTH) {
+            if(Input::isKeyHeld(GLFW_KEY_SPACE)) mapScroll -= 0.5f * dt;
+            if(Input::isKeyHeld(GLFW_KEY_LEFT_ALT)) mapScroll += 0.5f * dt;
+            if(mapScroll < -1.0f) {
+                mapScroll = 0;
+                mapOffset++;
+            }
+        }
 
-		ShaderManager::setViewMatrix(view);
-        //ShaderManager::useShader(shader);
-        //Vec2f mpos = Input::getMousePosition();
-        //shader->setUniform2f("lightpos", Vec2f(mpos.x * r / (float)w.getWidth()*2.0f - r, (b - mpos.y * b / (float)w.getHeight()) * 2 - b));
+        theta += 2 * dt;
+        player.update(dt, mapScroll, mapOffset);
 
 		//Pre-render
 		w.clear();
 
 		//Rendering
-		ShaderManager::setModelMatrix(Mat4::translation(position));
-        VertexArray::bind(vao);
-        glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(GLuint), GL_UNSIGNED_INT, 0);
-        VertexArray::unbind();
-		
+
+
+        shader->setUniform1f("colorDivisions", 30.0f);
+
+        for(int z = 0; z < LEVEL_DISTANCE; z++)
+        {
+            for(int x = 0; x < LEVEL_WIDTH; x++)
+            {
+                if(map[x+(z+mapOffset)*LEVEL_WIDTH]) {
+
+                    shader->setUniformColor("base_color", Color((x == (int)player.position.x && z == (int)player.position.z) ? COL_GREEN : COL_CYAN));
+
+                    ShaderManager::setModelMatrix(Mat4::translation(Vec3f(x,0,z+mapScroll)));
+                    plane->draw();
+                }
+            }
+        }
+
+
+        shader->setUniform1f("mapScroll", mapScroll);
+
+        player.draw(shader);
 
 		//End rendering
 		w.update();
@@ -141,11 +162,9 @@ int main(int argc, char* args[])
 		dt = delta.elapsed();
 	}
 
-    delete vao;
-    delete vbo;
-    delete ebo;
-
     texManager.unloadAllTextures();
+
+    delete plane;
 
 	glfwTerminate();
 	//system("PAUSE");

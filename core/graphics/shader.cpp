@@ -43,7 +43,7 @@ namespace muon {
 
 		void Shader::setUniform3f(const GLchar * name, const math::Vec3f& val)
 		{
-			glUniform3f(getUniformLocation(name), val.x, val.y, val.z);
+            glUniform3f(getUniformLocation(name), (float)val.x, (float)val.y, (float)val.z);
 		}
 
 		void Shader::setUniform4f(const GLchar * name, const math::Vec4f& val)

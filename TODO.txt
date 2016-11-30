@@ -8,7 +8,7 @@ x adding anchor to renderable2d
 [] font rendering
 - texture regions/atlas
 - camera
-- look at matrix
+x look at matrix
 - more matrix operations
 - mat3
 
@@ -25,6 +25,15 @@ x adding anchor to renderable2d
 - component system
 - game framework
 - event system
-- soporte vulcan, dx, maybe
 x use cmake
 x linux support
+
+- lookDir matrix
+- clamp functions
+- quaternions
+- debug renderer (lines)
+- ebo index count
+- testgame resources
+- mat4 scale matrix with 1 parameter
+- rectangle class
+- AABB

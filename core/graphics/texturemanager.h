@@ -5,7 +5,7 @@
 #include "texture.h"
 #include <FreeImage.h>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <glad/glad.h>
 
 namespace muon {
@@ -31,7 +31,7 @@ namespace muon {
 			Texture* getTexture(std::string textureName);
 
 		private:
-			std::map<std::string, Texture*> _textures;
+            std::unordered_map<std::string, Texture*> _textures;
 		};
 	}
 }
