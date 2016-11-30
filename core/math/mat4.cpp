@@ -213,25 +213,32 @@ namespace muon {
 
 		Mat4 Mat4::lookAt(const Vec3f & camPosition, const Vec3f & target, const Vec3f & up)
 		{
-			Mat4 res(1.0f);
-			
-			Vec3f cameraDir = (camPosition - target).normalized();
-			Vec3f cameraRight = up.cross(cameraDir).normalized();
-			Vec3f cameraUp = cameraDir.cross(cameraRight);
-
-			res.columns[0] = Vec4f(cameraRight.x, cameraUp.x, cameraDir.x, 0);
-			res.columns[1] = Vec4f(cameraRight.y, cameraUp.y, cameraDir.y, 0);
-			res.columns[2] = Vec4f(cameraRight.z, cameraUp.z, cameraDir.z, 0);
-
-			res.columns[3] = Vec4f
-				(
-					-camPosition.dot(cameraRight),
-					-camPosition.dot(cameraUp),
-					-camPosition.dot(cameraDir),
-					1
-				);
-
-			return res;
+            return lookDir(camPosition, target - camPosition, up);
 		}
+
+        Mat4 Mat4::lookDir(const Vec3f & camPosition, const Vec3f & direction, const Vec3f & up)
+        {
+            Mat4 res(1.0f);
+
+            Vec3f cameraDir = direction.normalized() * -1;
+            Vec3f cameraRight = up.cross(cameraDir).normalized();
+            Vec3f cameraUp = cameraDir.cross(cameraRight);
+
+            res.columns[0] = Vec4f(cameraRight.x, cameraUp.x, cameraDir.x, 0);
+            res.columns[1] = Vec4f(cameraRight.y, cameraUp.y, cameraDir.y, 0);
+            res.columns[2] = Vec4f(cameraRight.z, cameraUp.z, cameraDir.z, 0);
+
+            res.columns[3] = Vec4f
+                (
+                    -camPosition.dot(cameraRight),
+                    -camPosition.dot(cameraUp),
+                    -camPosition.dot(cameraDir),
+                    1
+                );
+
+            return res;
+        }
+
+
 	}
 }

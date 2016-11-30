@@ -13,7 +13,7 @@
 
 // m[y+x*4]
 
-//row major
+//column major
 
 namespace muon {
 	namespace math {
@@ -59,6 +59,7 @@ namespace muon {
 			static Mat4 rotation(const Vec3f& euler);
 			static Mat4 scale(const Vec3f& scale);
 			static Mat4 lookAt(const Vec3f& camPosition, const Vec3f& target, const Vec3f& up = Vec3f(0, 1, 0));
+            static Mat4 lookDir(const Vec3f& camPosition, const Vec3f& dir, const Vec3f& up = Vec3f(0, 1, 0));
 			
 		};
 	}

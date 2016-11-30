@@ -6,7 +6,6 @@
 #include "model.h"
 #include <ctime>
 #include <vector>
-#include "player.h"
 
 #define PERFORMANCE_TEST 1
 
@@ -30,6 +29,10 @@ int main(int argc, char* args[])
 	INFO("Version " << ME_VERSION_MAJOR << "." << ME_VERSION_MINOR);
 
     Window w("Muon Engine v0.01", 960, 540, Color(COL_LIGHT_GREY));
+
+    //int tu;
+    //glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &tu);
+    //INFO("Texture units: "<< tu);
 
 	if (!w.isRunning()) {
 		return -1;
@@ -63,9 +66,6 @@ int main(int argc, char* args[])
         1,0,3,
     };
 
-    Player::load();
-
-
 
 
     Model* plane = new Model(planeV, sizeof(planeV), planeI, sizeof(planeI));
@@ -78,7 +78,7 @@ int main(int argc, char* args[])
 
 
     DebugCam debCam(Vec3f(0,1,1));
-    //glfwSetInputMode(w.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(w.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     bool map[LEVEL_WIDTH*LEVEL_LENGTH];
 
@@ -91,7 +91,6 @@ int main(int argc, char* args[])
     int mapOffset = 0;
     float mapScroll = 0;
 
-    Player player(Vec3f(1.5f, 0, 2.5f), map, LEVEL_WIDTH, LEVEL_LENGTH);
 
 	while (w.isRunning()) {
 
@@ -111,8 +110,7 @@ int main(int argc, char* args[])
         shader->setUniform3f("camPos", debCam.position);
 
         if(mapOffset + LEVEL_DISTANCE < LEVEL_LENGTH) {
-            if(Input::isKeyHeld(GLFW_KEY_SPACE)) mapScroll -= 0.5f * dt;
-            if(Input::isKeyHeld(GLFW_KEY_LEFT_ALT)) mapScroll += 0.5f * dt;
+            mapScroll -= 0.5f * dt;
             if(mapScroll < -1.0f) {
                 mapScroll = 0;
                 mapOffset++;
@@ -120,7 +118,6 @@ int main(int argc, char* args[])
         }
 
         theta += 2 * dt;
-        player.update(dt, mapScroll, mapOffset);
 
 		//Pre-render
 		w.clear();
@@ -129,15 +126,13 @@ int main(int argc, char* args[])
 
 
         shader->setUniform1f("colorDivisions", 30.0f);
+        shader->setUniformColor("base_color", Color(COL_CYAN));
 
         for(int z = 0; z < LEVEL_DISTANCE; z++)
         {
             for(int x = 0; x < LEVEL_WIDTH; x++)
             {
                 if(map[x+(z+mapOffset)*LEVEL_WIDTH]) {
-
-                    shader->setUniformColor("base_color", Color((x == (int)player.position.x && z == (int)player.position.z) ? COL_GREEN : COL_CYAN));
-
                     ShaderManager::setModelMatrix(Mat4::translation(Vec3f(x,0,z+mapScroll)));
                     plane->draw();
                 }
@@ -146,8 +141,6 @@ int main(int argc, char* args[])
 
 
         shader->setUniform1f("mapScroll", mapScroll);
-
-        player.draw(shader);
 
 		//End rendering
 		w.update();
