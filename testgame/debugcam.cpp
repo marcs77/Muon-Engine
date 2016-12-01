@@ -43,7 +43,7 @@ void DebugCam::update(float deltaTime)
 
     //INFO("hor(y): " << _eulerRot.y << " ver(x): " << _eulerRot.x);
 
-    viewMatrix = Mat4::lookAt(position, position + forward);
+    viewMatrix = Mat4::lookDir(position, forward, up);
 
     _prevMousePos = Input::getMousePosition();
 }

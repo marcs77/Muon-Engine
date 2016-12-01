@@ -27,6 +27,7 @@
 #include "math/vec2.h"
 #include "math/vec3.h"
 #include "math/vec4.h"
+#include "math/quaternion.h"
 
 #include "util/color.h"
 #include "util/fileutils.h"

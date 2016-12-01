@@ -28,12 +28,13 @@ x look at matrix
 x use cmake
 x linux support
 
-- lookDir matrix
-- clamp functions
-- quaternions
+x lookDir matrix
+x clamp functions
+[] quaternions
 - debug renderer (lines)
 - ebo index count
 - testgame resources
 - mat4 scale matrix with 1 parameter
 - rectangle class
 - AABB
+- use printf instead of cout
