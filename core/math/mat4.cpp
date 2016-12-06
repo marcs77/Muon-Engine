@@ -211,6 +211,17 @@ namespace muon {
 			return result;
 		}
 
+		Mat4 Mat4::scale(float scalar)
+		{
+			Mat4 result(1.0f);
+
+			*result.getP(0, 0) = scalar;
+			*result.getP(1, 1) = scalar;
+			*result.getP(2, 2) = scalar;
+
+			return result;
+		}
+
 		Mat4 Mat4::lookAt(const Vec3f & camPosition, const Vec3f & target, const Vec3f & up)
 		{
             return lookDir(camPosition, target - camPosition, up);

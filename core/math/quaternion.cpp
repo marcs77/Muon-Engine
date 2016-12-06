@@ -17,6 +17,7 @@ Quaternion& Quaternion::operator +=(const Quaternion &q) {
     y += q.y;
     z += q.z;
     w += q.w;
+	return *this;
 }
 
 Quaternion Quaternion::operator -(const Quaternion &q) const {
@@ -28,6 +29,7 @@ Quaternion& Quaternion::operator -=(const Quaternion &q) {
     y -= q.y;
     z -= q.z;
     w -= q.w;
+	return *this;
 }
 
 

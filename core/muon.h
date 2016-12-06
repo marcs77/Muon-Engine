@@ -19,6 +19,7 @@
 //#include "graphics/text/font.h"
 //#include "graphics/text/label.h"
 #include "graphics/shadermanager.h"
+#include "graphics/debugrenderer.h"
 
 #include "input/input.h"
 

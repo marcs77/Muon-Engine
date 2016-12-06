@@ -1,11 +1,14 @@
 
 #include "muon.h"
-#include "graphics/shadermanager.h"
 #include "build_info.h"
 #include "debugcam.h"
 #include "model.h"
 #include <ctime>
 #include <vector>
+
+extern "C" {
+	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+}
 
 #define PERFORMANCE_TEST 1
 
@@ -40,6 +43,8 @@ int main(int argc, char* args[])
 	if (!w.isRunning()) {
 		return -1;
     }
+
+	DebugRenderer debugRenderer;
 
     TextureManager texManager;
 
@@ -126,6 +131,16 @@ int main(int argc, char* args[])
 		w.clear();
 
 		//Rendering
+		
+		debugRenderer.addLine(Vec3f(0, 0, 0), Vec3f(1, 0, 0));
+		debugRenderer.addLine(Vec3f(0, 0, 0), Vec3f(0, 1, 0), Color(COL_GREEN));
+		debugRenderer.addLine(Vec3f(0, 0, 0), Vec3f(0, 0, 1), Color(COL_BLUE));
+		if (Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_2)) {
+			debugRenderer.addLine(Vec3f(2, 0, 0), Vec3f(0, 0, 5));
+		}
+		debugRenderer.draw();
+
+		ShaderManager::useShader(shader);
 
 
         shader->setUniform1f("colorDivisions", 30.0f);

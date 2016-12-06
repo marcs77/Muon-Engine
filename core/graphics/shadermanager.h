@@ -14,6 +14,7 @@ private:
     static Shader* _currentShader;
 	static math::Mat4 _projMatrix;
 	static math::Mat4 _viewMatrix;
+	static math::Mat4 _modelMatrix;
 
 	static void setUniformMatrix(const GLchar* name, const math::Mat4& matrix);
 

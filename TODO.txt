@@ -1,10 +1,10 @@
 
-x texture arrays
+- texture arrays
 x delta time
 x adding color class
 - typedefs
 x uniform location map
-x adding anchor to renderable2d  
+- adding anchor to renderable2d  
 [] font rendering
 - texture regions/atlas
 - camera
@@ -31,9 +31,8 @@ x linux support
 x lookDir matrix
 x clamp functions
 [] quaternions
-- debug renderer (lines)
-- ebo index count
-- testgame resources
+[] debug renderer (lines)
+x testgame resources
 - mat4 scale matrix with 1 parameter
 - rectangle class
 - AABB
