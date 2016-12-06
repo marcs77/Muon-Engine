@@ -29,6 +29,7 @@
 #include "math/vec3.h"
 #include "math/vec4.h"
 #include "math/quaternion.h"
+#include "math/rectangle.h"
 
 #include "util/color.h"
 #include "util/fileutils.h"

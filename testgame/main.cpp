@@ -20,6 +20,16 @@ extern "C" {
 
 void printError(int error, const char* description);
 
+void drawRect(muon::graphics::DebugRenderer* dr, muon::math::Rectf r) {
+    using namespace muon;
+    using namespace math;
+    dr->addLine(Vec3f(r.x, r.y, 0), Vec3f(r.x,r.getBottom(),0));
+    dr->addLine(Vec3f(r.x, r.y, 0), Vec3f(r.getRight(),r.y,0));
+    dr->addLine(Vec3f(r.x, r.getBottom(), 0), Vec3f(r.getRight(),r.getBottom(),0));
+    dr->addLine(Vec3f(r.getRight(), r.y, 0), Vec3f(r.getRight(),r.getBottom(),0));
+}
+
+
 int main(int argc, char* args[])
 {
 	using namespace muon;
@@ -47,6 +57,10 @@ int main(int argc, char* args[])
     }
 
     DebugRenderer* debugRenderer = new DebugRenderer();
+    debugRenderer->setLineWidth(2);
+
+    Rectangle<float> rect(3,6,4,6);
+    Rectangle<float> rect2(0,0,5,6);
 
     TextureManager texManager;
 
@@ -127,6 +141,10 @@ int main(int argc, char* args[])
             }
         }
 
+        rect.x = sinf(theta)*2 + 6;
+
+        if(input::Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_1)) rect.y = 6;
+
         theta += 2 * dt;
 
 		//Pre-render
@@ -140,6 +158,17 @@ int main(int argc, char* args[])
 		if (Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_2)) {
             debugRenderer->addLine(Vec3f(2, 0, 0), Vec3f(0, 0, 5));
 		}
+
+        drawRect(debugRenderer, rect);
+        drawRect(debugRenderer, rect2);
+
+
+        debugRenderer->addLine(Vec3f(rect.getCenter(),0), Vec3f(rect2.getCenter(),0),
+            rect.relativePos(rect2) == RelativePos::INSIDE ?  Color(COL_PURPLE) :
+            rect.relativePos(rect2) == RelativePos::TANGENT ? Color(COL_WHITE) : Color(COL_BLUE));
+
+        INFO(rect2.getCollisionSide(rect));
+
         debugRenderer->draw();
 
 		ShaderManager::useShader(shader);
@@ -191,3 +220,5 @@ void printError(int error, const char* description)
 {
 	ERR(description);
 }
+
+

@@ -33,7 +33,7 @@ x clamp functions
 [] quaternions
 [] debug renderer (lines)
 x testgame resources
-- mat4 scale matrix with 1 parameter
-- rectangle class
+x mat4 scale matrix with 1 parameter
+x rectangle class
 - AABB
 - use printf instead of cout
