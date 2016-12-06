@@ -6,9 +6,11 @@
 #include <ctime>
 #include <vector>
 
+#if defined(_WIN32) || defined(_WIN64)
 extern "C" {
 	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 }
+#endif
 
 #define PERFORMANCE_TEST 1
 
@@ -44,7 +46,7 @@ int main(int argc, char* args[])
 		return -1;
     }
 
-	DebugRenderer debugRenderer;
+    DebugRenderer* debugRenderer = new DebugRenderer();
 
     TextureManager texManager;
 
@@ -132,13 +134,13 @@ int main(int argc, char* args[])
 
 		//Rendering
 		
-		debugRenderer.addLine(Vec3f(0, 0, 0), Vec3f(1, 0, 0));
-		debugRenderer.addLine(Vec3f(0, 0, 0), Vec3f(0, 1, 0), Color(COL_GREEN));
-		debugRenderer.addLine(Vec3f(0, 0, 0), Vec3f(0, 0, 1), Color(COL_BLUE));
+        debugRenderer->addLine(Vec3f(0, 0, 0), Vec3f(1, 0, 0));
+        debugRenderer->addLine(Vec3f(0, 0, 0), Vec3f(0, 1, 0), Color(COL_GREEN));
+        debugRenderer->addLine(Vec3f(0, 0, 0), Vec3f(0, 0, 1), Color(COL_BLUE));
 		if (Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_2)) {
-			debugRenderer.addLine(Vec3f(2, 0, 0), Vec3f(0, 0, 5));
+            debugRenderer->addLine(Vec3f(2, 0, 0), Vec3f(0, 0, 5));
 		}
-		debugRenderer.draw();
+        debugRenderer->draw();
 
 		ShaderManager::useShader(shader);
 
@@ -176,6 +178,7 @@ int main(int argc, char* args[])
     texManager.unloadAllTextures();
 
     delete plane;
+    delete debugRenderer;
 
 	glfwTerminate();
 	//system("PAUSE");

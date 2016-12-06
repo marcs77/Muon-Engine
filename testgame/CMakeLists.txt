@@ -15,5 +15,3 @@ target_link_libraries (TestGame freetype MuonCore)
 set_property(TARGET TestGame PROPERTY CXX_STANDARD 11)
 
 file(COPY ./resources DESTINATION ${PROJECT_BINARY_DIR}/workingDir)
-
-

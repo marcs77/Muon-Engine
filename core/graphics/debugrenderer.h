@@ -18,6 +18,7 @@ namespace graphics {
 
 	public:
 		DebugRenderer();
+        ~DebugRenderer();
 
 		void addLine(math::Vec3f a, math::Vec3f b, Color color = Color(COL_RED));
 		void addLine(math::Vec3f a, math::Vec3f b, Color c1, Color c2);
@@ -35,8 +36,8 @@ namespace graphics {
 		int drawnLines;
 
 		Shader shader;
-		Buffer vertexBuffer;
-		VertexArray vao;
+        Buffer* vertexBuffer;
+        VertexArray* vao;
 		
 	};
 

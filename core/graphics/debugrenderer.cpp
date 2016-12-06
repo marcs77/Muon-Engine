@@ -5,13 +5,13 @@ namespace graphics {
 	
 	DebugRenderer::DebugRenderer() : 
 		shader("resources/shaders/debugVertex.glsl", "resources/shaders/debugFragment.glsl"), 
-		drawnLines(0)
+        drawnLines(0), vao(new VertexArray()), vertexBuffer(new Buffer())
 	{
-		vertexBuffer.load(NULL, SIZE * sizeof(GLfloat), GL_DYNAMIC_DRAW);
-		VertexArray::bind(&vao);
+        vertexBuffer->load(NULL, SIZE * sizeof(GLfloat), GL_DYNAMIC_DRAW);
+        VertexArray::bind(vao);
 		//TODO: use 4 bytes for loading the color
-		vao.addVertexAttributePointer(&vertexBuffer, 0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-		vao.addVertexAttributePointer(&vertexBuffer, 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
+        vao->addVertexAttributePointer(vertexBuffer, 0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+        vao->addVertexAttributePointer(vertexBuffer, 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
 		VertexArray::unbind();
 
 		setLineWidth(2);
@@ -51,17 +51,19 @@ namespace graphics {
 	{
 		ShaderManager::useShader(&shader);
 		ShaderManager::setModelMatrix(math::Mat4::identity());
-		Buffer::bind(&vertexBuffer);
+
+        Buffer::bind(vertexBuffer);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, currentLines.size() * sizeof(GLfloat), currentLines.data());
-		Buffer::unbind(&vertexBuffer);
-		VertexArray::bind(&vao);
+        Buffer::unbind(vertexBuffer);
+
+        VertexArray::bind(vao);
 		glDrawArrays(GL_LINES, 0, drawnLines * 2);
 		VertexArray::unbind();
-		ShaderManager::disableShader();
+
+        ShaderManager::disableShader();
 
 		currentLines.clear();
 		drawnLines = 0;
-		//delete[] data;
 	}
 
 	void DebugRenderer::setLineWidth(float width) const
@@ -69,7 +71,10 @@ namespace graphics {
 		glLineWidth(width);
 	}
 
-
+    DebugRenderer::~DebugRenderer() {
+        delete vao;
+        delete vertexBuffer;
+    }
 
 }
 }
