@@ -59,8 +59,8 @@ int main(int argc, char* args[])
     DebugRenderer* debugRenderer = new DebugRenderer();
     debugRenderer->setLineWidth(2);
 
-    Rectangle<float> rect(3,6,4,6);
-    Rectangle<float> rect2(0,0,5,6);
+    Rectf rect(2,1,1,1);
+    Rectf rect2(0,0,5,6);
 
     TextureManager texManager;
 
@@ -115,6 +115,7 @@ int main(int argc, char* args[])
     int mapOffset = 0;
     float mapScroll = 0;
 
+    Color colorCode[] = {Color(COL_WHITE), Color(COL_YELLOW), Color(COL_BLUE), Color(COL_PURPLE)};
 
 	while (w.isRunning()) {
 
@@ -141,7 +142,7 @@ int main(int argc, char* args[])
             }
         }
 
-        rect.x = sinf(theta)*2 + 6;
+        rect.x = sinf(theta)*2 + 4;
 
         if(input::Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_1)) rect.y = 6;
 
@@ -164,10 +165,9 @@ int main(int argc, char* args[])
 
 
         debugRenderer->addLine(Vec3f(rect.getCenter(),0), Vec3f(rect2.getCenter(),0),
-            rect.relativePos(rect2) == RelativePos::INSIDE ?  Color(COL_PURPLE) :
-            rect.relativePos(rect2) == RelativePos::TANGENT ? Color(COL_WHITE) : Color(COL_BLUE));
+            colorCode[rect2.relativePos(rect)]);
 
-        INFO(rect2.getCollisionSide(rect));
+        //INFO(rect2.getCollisionSide(rect));
 
         debugRenderer->draw();
 

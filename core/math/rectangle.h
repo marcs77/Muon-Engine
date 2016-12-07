@@ -14,7 +14,7 @@ enum RectSide {
 };
 
 enum RelativePos {
-    TANGENT, INSIDE, OUTSIDE
+    TOUCHING, INSIDE, OUTSIDE, INTERSECTING
 };
 
 template<class T>
@@ -42,7 +42,13 @@ struct Rectangle
     inline T getTop() const { return getSide(TOP);}
     inline T getBottom() const { return getSide(BOTTOM);}
 
-    inline bool intersects(const Rectangle<T> &other) const {
+    inline bool isInside(const Vec2<T>& point) const {
+        return
+            point.x >= getLeft() && point.y <= getRight() &&
+            point.y >= getTop()  && point.y <= getBottom();
+    }
+
+    inline bool collides(const Rectangle<T> &other) const {
         return
             getRight() >= other.getLeft() &&
             getLeft() <= other.getRight() &&
@@ -51,6 +57,13 @@ struct Rectangle
     }
 
     inline RelativePos relativePos(const Rectangle<T> &other) const {
+
+        if(getLeft() < other.getLeft() &&
+           getRight() > other.getRight() &&
+           getBottom() > other.getBottom() &&
+           getTop() < other.getTop())
+            return INSIDE;
+
         if(getRight() >= other.getLeft() &&
             getLeft() <= other.getRight() &&
             getTop() <= other.getBottom() &&
@@ -61,9 +74,9 @@ struct Rectangle
                     getTop() == other.getBottom() ||
                     getBottom() == other.getTop())
             {
-                return TANGENT;
+                return TOUCHING;
             }
-            return INSIDE;
+            return INTERSECTING;
         }else {
             return OUTSIDE;
         }
