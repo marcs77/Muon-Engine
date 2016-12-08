@@ -49,7 +49,18 @@ namespace muon { namespace math {
 		static inline Vec2 direction(const Vec2& from, const Vec2& to);
 		static inline T projection(const Vec2& a, const Vec2& b);
 		static inline Vec2 projectionVector(const Vec2& a, const Vec2& b);
+
+        static Vec2 zero;
+        static Vec2 i;
+        static Vec2 j;
 	};
+
+    template<typename T>
+    Vec2<T> Vec2<T>::zero = Vec2();
+    template<typename T>
+    Vec2<T> Vec2<T>::i = Vec2(1,0);
+    template<typename T>
+    Vec2<T> Vec2<T>::j = Vec2(0,1);
 
 	/* Constructors */
 

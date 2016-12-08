@@ -61,6 +61,8 @@ int main(int argc, char* args[])
 
     Rectf rect(2,1,1,1);
     Rectf rect2(0,0,5,6);
+    AABBf player(Vec3f(1,1,1), Vec3f(2,2,2));
+    AABBf box(Vec3f(0,0,4), Vec3f(6,6,6));
 
     TextureManager texManager;
 
@@ -144,7 +146,17 @@ int main(int argc, char* args[])
 
         rect.x = sinf(theta)*2 + 4;
 
-        if(input::Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_1)) rect.y = 6;
+
+        if(Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_1)) box.setPosition(Vec3f::i * cosf(theta));
+        if(Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_2)) {
+            box.ext(Vec3f(3,3,3));
+            INFO(box.getSize());
+        }
+
+        if(Input::isKeyHeld(GLFW_KEY_UP)) player.translate(Vec3f::k*dt);
+        if(Input::isKeyHeld(GLFW_KEY_DOWN)) player.translate(Vec3f::k*(-dt));
+        if(Input::isKeyHeld(GLFW_KEY_LEFT)) player.translate(Vec3f::i*dt);
+        if(Input::isKeyHeld(GLFW_KEY_RIGHT)) player.translate(Vec3f::i*(-dt));
 
         theta += 2 * dt;
 
@@ -153,9 +165,9 @@ int main(int argc, char* args[])
 
 		//Rendering
 		
-        debugRenderer->addLine(Vec3f(0, 0, 0), Vec3f(1, 0, 0));
-        debugRenderer->addLine(Vec3f(0, 0, 0), Vec3f(0, 1, 0), Color(COL_GREEN));
-        debugRenderer->addLine(Vec3f(0, 0, 0), Vec3f(0, 0, 1), Color(COL_BLUE));
+        debugRenderer->addLine(Vec3f::zero, Vec3f::i);
+        debugRenderer->addLine(Vec3f::zero, Vec3f::j, Color(COL_GREEN));
+        debugRenderer->addLine(Vec3f::zero, Vec3f::k, Color(COL_BLUE));
 		if (Input::isMouseButtonHeld(GLFW_MOUSE_BUTTON_2)) {
             debugRenderer->addLine(Vec3f(2, 0, 0), Vec3f(0, 0, 5));
 		}
@@ -163,9 +175,17 @@ int main(int argc, char* args[])
         drawRect(debugRenderer, rect);
         drawRect(debugRenderer, rect2);
 
+        debugRenderer->addAABB(box);
+        debugRenderer->addCross(box.getCenter());
+        debugRenderer->addAABB(player);
+        debugRenderer->addCross(player.getCenter());
+        debugRenderer->addCross(Vec3f(3,3,3));
+
 
         debugRenderer->addLine(Vec3f(rect.getCenter(),0), Vec3f(rect2.getCenter(),0),
             colorCode[rect2.relativePos(rect)]);
+        if(box.intersects(player))
+            debugRenderer->addLine(box.getCenter(), player.getCenter(), Color(0xff0012ff), Color(0xffaa99ff));
 
         //INFO(rect2.getCollisionSide(rect));
 

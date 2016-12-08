@@ -12,6 +12,6 @@ include_directories (../dependencies/freetype-gl)
 add_executable (TestGame ${MUON_GAME_SRC} ${MUON_GAME_INCLUDE})
 
 target_link_libraries (TestGame freetype MuonCore)
-set_property(TARGET TestGame PROPERTY CXX_STANDARD 11)
+set_property(TARGET TestGame PROPERTY CXX_STANDARD 14)
 
 file(COPY ./resources DESTINATION ${PROJECT_BINARY_DIR}/workingDir)

@@ -17,12 +17,12 @@ namespace graphics {
 		setLineWidth(2);
 	}
 
-	void DebugRenderer::addLine(math::Vec3f a, math::Vec3f b, Color color)
+    void DebugRenderer::addLine(const math::Vec3f& a, const math::Vec3f& b, Color color)
 	{
 		addLine(a, b, color, color);
 	}
 
-	void DebugRenderer::addLine(math::Vec3f a, math::Vec3f b, Color c1, Color c2)
+    void DebugRenderer::addLine(const math::Vec3f& a, const math::Vec3f& b, Color c1, Color c2)
 	{
 
 		if (drawnLines == MAX_LINES) {
@@ -74,6 +74,36 @@ namespace graphics {
     DebugRenderer::~DebugRenderer() {
         delete vao;
         delete vertexBuffer;
+    }
+
+    void DebugRenderer::addAABB(const math::AABBf &box, Color color)
+    {
+        using namespace math;
+        addLine(box.min, Vec3f(box.max.x, box.min.y, box.min.z), color);
+        addLine(box.min, Vec3f(box.min.x, box.max.y, box.min.z), color);
+        addLine(box.min, Vec3f(box.min.x, box.min.y, box.max.z), color);
+
+        addLine(box.max, Vec3f(box.min.x, box.max.y, box.max.z), color);
+        addLine(box.max, Vec3f(box.max.x, box.min.y, box.max.z), color);
+        addLine(box.max, Vec3f(box.max.x, box.max.y, box.min.z), color);
+
+        addLine(Vec3f(box.min.x, box.max.y, box.min.z), Vec3f(box.max.x, box.max.y, box.min.z), color);
+        addLine(Vec3f(box.min.x, box.max.y, box.max.z), Vec3f(box.min.x, box.max.y, box.min.z), color);
+        addLine(Vec3f(box.min.x, box.min.y, box.max.z), Vec3f(box.min.x, box.max.y, box.max.z), color);
+        addLine(Vec3f(box.max.x, box.min.y, box.min.z), Vec3f(box.max.x, box.max.y, box.min.z), color);
+        addLine(Vec3f(box.max.x, box.min.y, box.min.z), Vec3f(box.max.x, box.min.y, box.max.z), color);
+        addLine(Vec3f(box.min.x, box.min.y, box.max.z), Vec3f(box.max.x, box.min.y, box.max.z), color);
+    }
+
+    void DebugRenderer::addCross(const math::Vec3f &point, float size)
+    {
+        using namespace math;
+        Vec3f x(size,0,0);
+        Vec3f y(0,size,0);
+        Vec3f z(0,0,size);
+        addLine(point - x, point + x);
+        addLine(point - y, point + y);
+        addLine(point - z, point + z);
     }
 
 }

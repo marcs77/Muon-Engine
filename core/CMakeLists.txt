@@ -30,7 +30,7 @@ include_directories (../dependencies/freetype-gl)
 
 add_library(MuonCore ${MUON_CORE_SRC} ${MUON_CORE_INCLUDE})
 
-set_property(TARGET MuonCore PROPERTY CXX_STANDARD 11)
+set_property(TARGET MuonCore PROPERTY CXX_STANDARD 14)
 
 
 target_link_libraries(MuonCore glfw ${GLFW_LIBRARIES})

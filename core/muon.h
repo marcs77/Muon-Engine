@@ -30,6 +30,7 @@
 #include "math/vec4.h"
 #include "math/quaternion.h"
 #include "math/rectangle.h"
+#include "math/aabb.h"
 
 #include "util/color.h"
 #include "util/fileutils.h"

@@ -55,7 +55,21 @@ namespace muon {
 			static inline Vec3 direction(const Vec3& from, const Vec3& to);
 			static inline T projection(const Vec3& a, const Vec3& b);
 			static inline Vec3 projectionVector(const Vec3& a, const Vec3& b);
+
+            static Vec3 zero;
+            static Vec3 i;
+            static Vec3 j;
+            static Vec3 k;
 		};
+
+        template<typename T>
+        Vec3<T> Vec3<T>::zero = Vec3();
+        template<typename T>
+        Vec3<T> Vec3<T>::i = Vec3(1,0,0);
+        template<typename T>
+        Vec3<T> Vec3<T>::j = Vec3(0,1,0);
+        template<typename T>
+        Vec3<T> Vec3<T>::k = Vec3(0,0,1);
 
 		/* Constructors */
 
