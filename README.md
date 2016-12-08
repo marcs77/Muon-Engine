@@ -1,5 +1,5 @@
 # Muon Engine (WIP)
-A C++ OpenGL engine, currently works in Windows and Linux.
+A C++ OpenGL Game Engine, currently works in Windows and Linux.
 ### Dependencies
 Dependencies included inside:
  - FreeImage (only for Windows)
