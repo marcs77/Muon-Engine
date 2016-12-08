@@ -48,9 +48,8 @@ int main(int argc, char* args[])
     //int tu;
     //glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &tu);
     //INFO("Texture units: "<< tu);
-    Quaternion q(1,2,3,4);
-    q -= Quaternion(2,2,2,2);
-    INFO(q.toString())
+
+    INFO((Quaternion(.1,.23,.234,2) * Quaternion(.87,0,.5,1)).toString());
 
 	if (!w.isRunning()) {
 		return -1;
