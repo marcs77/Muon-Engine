@@ -35,5 +35,5 @@ x clamp functions
 x testgame resources
 x mat4 scale matrix with 1 parameter
 x rectangle class
-- AABB
+x AABB
 - use printf instead of cout

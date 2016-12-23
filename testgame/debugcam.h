@@ -15,7 +15,7 @@ public:
     math::Mat4 viewMatrix;
     float clampMax, clampMin;
 
-    DebugCam(math::Vec3f pos, math::Vec3f up = math::Vec3f(0,1,0));
+    DebugCam(math::Vec3f pos, math::Vec3f up = math::Vec3f::j);
 
     void update(float deltaTime);
 

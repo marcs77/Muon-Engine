@@ -8,7 +8,7 @@ DebugCam::DebugCam(math::Vec3f pos, math::Vec3f up)
     : position(pos), _up(up), speed(2), sensitivityX(0.2f), sensitivityY(0.2f), clampMax(80), clampMin(-80)
     , _eulerRot(math::Vec2f())
 {
-    viewMatrix = math::Mat4::lookAt(position, position + math::Vec3f(0,0,-1), up);
+    viewMatrix = math::Mat4::lookDir(position, math::Vec3f(0,0,-1), up);
 }
 
 void DebugCam::update(float deltaTime)

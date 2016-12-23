@@ -18,9 +18,11 @@ namespace muon { namespace math {
 
 		Vec2 operator+(const Vec2 &v2) const;
 		Vec2& operator+=(const Vec2 &v2);
+        Vec2 operator+() const;
 
 		Vec2 operator-(const Vec2 &v2) const;
 		Vec2& operator-=(const Vec2 &v2);
+        Vec2 operator-() const;
 
 		Vec2 operator*(const Vec2 &v2) const;
 		Vec2 operator*(const T &scalar) const;
@@ -50,17 +52,17 @@ namespace muon { namespace math {
 		static inline T projection(const Vec2& a, const Vec2& b);
 		static inline Vec2 projectionVector(const Vec2& a, const Vec2& b);
 
-        static Vec2 zero;
-        static Vec2 i;
-        static Vec2 j;
+        static const Vec2 zero;
+        static const Vec2 i;
+        static const Vec2 j;
 	};
 
     template<typename T>
-    Vec2<T> Vec2<T>::zero = Vec2();
+    const Vec2<T> Vec2<T>::zero = Vec2();
     template<typename T>
-    Vec2<T> Vec2<T>::i = Vec2(1,0);
+    const Vec2<T> Vec2<T>::i = Vec2(1,0);
     template<typename T>
-    Vec2<T> Vec2<T>::j = Vec2(0,1);
+    const Vec2<T> Vec2<T>::j = Vec2(0,1);
 
 	/* Constructors */
 
@@ -90,6 +92,12 @@ namespace muon { namespace math {
 		return *this;
 	}
 
+    template<typename T>
+    Vec2<T> Vec2<T>::operator+() const
+    {
+        return Vec2(x, y);
+    }
+
 	template<typename T>
 	Vec2<T> Vec2<T>::operator-(const Vec2 & v2) const
 	{
@@ -103,6 +111,12 @@ namespace muon { namespace math {
 		y -= v2.y;
 		return *this;
 	}
+
+    template<typename T>
+    Vec2<T> Vec2<T>::operator-() const
+    {
+        return Vec2(-x, -y);
+    }
 
 	template<typename T>
 	Vec2<T> Vec2<T>::operator*(const Vec2 & v2) const

@@ -53,11 +53,11 @@ namespace muon {
 			static inline T projection(const Vec4& a, const Vec4& b);
 			static inline Vec4 projectionVector(const Vec4& a, const Vec4& b);
 
-            static Vec4 zero;
+            static const Vec4 zero;
 		};
 
         template<typename T>
-        Vec4<T> Vec4<T>::zero = Vec4();
+        const Vec4<T> Vec4<T>::zero = Vec4();
 
 		/* Constructors */
 
