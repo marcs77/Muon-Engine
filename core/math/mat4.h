@@ -3,6 +3,7 @@
 
 #include "vec3.h"
 #include "vec4.h"
+#include "quaternion.h"
 #include <ostream>
 
 /* MATRIX */
@@ -21,13 +22,13 @@ namespace muon {
 
 			union {
 				float m[4 * 4];
-				struct 
+				struct
 				{
 					Vec4f columns[4];
 				};
 			};
 
-			
+
 
 			Mat4();
 			Mat4(const Mat4& other);
@@ -57,11 +58,12 @@ namespace muon {
 
 			static Mat4 translation(const Vec3f& pos);
 			static Mat4 rotation(const Vec3f& euler);
+			static Mat4 rotation(const Quaternion& q);
 			static Mat4 scale(const Vec3f& scale);
 			static Mat4 scale(float scalar);
 			static Mat4 lookAt(const Vec3f& camPosition, const Vec3f& target, const Vec3f& up = Vec3f(0, 1, 0));
             static Mat4 lookDir(const Vec3f& camPosition, const Vec3f& dir, const Vec3f& up = Vec3f(0, 1, 0));
-			
+
 		};
 	}
 }

@@ -50,7 +50,7 @@ namespace muon {
 			return Mat4::multiply(*this, right);
 		}
 
-		Vec3f operator*(const Mat4& m,const Vec3f & v) 
+		Vec3f operator*(const Mat4& m,const Vec3f & v)
 		{
 			return Vec3f
 				(
@@ -198,6 +198,27 @@ namespace muon {
 			*result.getP(2, 2) = cx * cy;
 
 			return result;
+		}
+
+		Mat4 Mat4::rotation(const Quaternion& q) {
+            Mat4 result;
+
+            *result.getP(0, 0) = 1.0f - 2*q.y*q.y - 2*q.z*q.z;
+            *result.getP(0, 1) = 2*q.x*q.y - 2*q.w*q.z;
+            *result.getP(0, 2) = 2*q.x*q.z + 2*q.w*q.y;
+
+            *result.getP(1, 0) = 2*q.x*q.y + 2*q.w*q.z;
+            *result.getP(1, 1) = 1.0f - 2*q.x*q.x - 2*q.z*q.z;
+            *result.getP(1, 2) = 2*q.z*q.y + 2*q.w*q.x;
+
+            *result.getP(2, 0) = 2*q.x*q.z - 2*q.w*q.y;
+            *result.getP(2, 1) = 2*q.z*q.y - 2*q.w*q.x;
+            *result.getP(2, 2) = 1.0f - 2*q.x*q.x - 2*q.y*q.y;
+
+            *result.getP(3, 3) = 1;
+
+            return result;
+
 		}
 
 		Mat4 Mat4::scale(const Vec3f & scale)
