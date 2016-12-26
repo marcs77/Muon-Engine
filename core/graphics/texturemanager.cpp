@@ -3,7 +3,9 @@
 namespace muon {
 	namespace graphics {
 
-		TextureManager::TextureManager() 
+	    TextureManager* TextureManager::_instance = NULL;
+
+		TextureManager::TextureManager()
 		{
 #ifdef FREEIMAGE_LIB
 			FreeImage_Initialise();
@@ -49,7 +51,7 @@ namespace muon {
 			//check that the plugin has reading capabilities and load the file
 			if (FreeImage_FIFSupportsReading(fif))
 				dib = FreeImage_Load(fif, path);
-			else 
+			else
 				ERR("Could not load texture: Image format not supported.");
 
 			//if the image failed to load, return failure
@@ -82,7 +84,7 @@ namespace muon {
 			_textures[textureName] = new Texture(path, gl_texID, width, height);
 			//bind to the new texture ID
 			glBindTexture(GL_TEXTURE_2D, gl_texID);
-			
+
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -140,15 +142,15 @@ namespace muon {
             auto i = _textures.begin();
 
 			//Unload the textures untill the end of the texture map is found
-			
-			while(i != _textures.end()) 
-			{		
+
+			while(i != _textures.end())
+			{
 				delete i->second;
 				if(i != _textures.end()) i++;
 			}
 
 			_textures.clear();
-				
+
 
 		}
 
@@ -157,7 +159,10 @@ namespace muon {
 			return _textures[textureName];
 		}
 
-		
-
+		TextureManager& TextureManager::instance()
+		{
+            if(_instance == NULL) _instance = new TextureManager();
+            return *_instance;
+		}
 	}
 }

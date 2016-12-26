@@ -13,13 +13,14 @@ namespace muon {
 		class TextureManager {
 		public:
 
-			TextureManager();
+            static TextureManager& instance();
+
 			~TextureManager();
 
 			Texture* loadTexture(
 				const char* path,
-				std::string textureName,		
-				GLint level = 0,					
+				std::string textureName,
+				GLint level = 0,
 				GLint border = 0);
 
 			bool bindTexture(std::string textureName);
@@ -32,6 +33,10 @@ namespace muon {
 
 		private:
             std::unordered_map<std::string, Texture*> _textures;
+
+            TextureManager();
+            static TextureManager* _instance;
+
 		};
 	}
 }

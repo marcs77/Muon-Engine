@@ -63,11 +63,9 @@ int main(int argc, char* args[])
     AABBf player(Vec3f(1,1,1), Vec3f(2,2,2));
     AABBf box(Vec3f(0,0,4), Vec3f(6,6,6));
 
-    TextureManager texManager;
-
-    Texture* t = texManager.loadTexture("resources/textures/test.png", "test");
-    Texture* t2 = texManager.loadTexture("resources/textures/test2.png", "test2");
-    Texture* t3 = texManager.loadTexture("resources/textures/fat.jpg", "fat");
+    Texture* t = TextureManager::instance().loadTexture("resources/textures/test.png", "test");
+    Texture* t2 = TextureManager::instance().loadTexture("resources/textures/test2.png", "test2");
+    Texture* t3 = TextureManager::instance().loadTexture("resources/textures/fat.jpg", "fat");
 
     Shader* shader = new Shader("resources/shaders/simpleVertex.glsl", "resources/shaders/simpleFragment.glsl");
 
@@ -99,7 +97,7 @@ int main(int argc, char* args[])
 
 	ShaderManager::useShader(shader);
 	ShaderManager::setProjectionMatrix(Mat4::perspective(80, w.getAspectRatio(), 0.1f, 500.0f));
-	
+
 
 
     DebugCam debCam(Vec3f(0,1,1));
@@ -163,7 +161,7 @@ int main(int argc, char* args[])
 		w.clear();
 
 		//Rendering
-		
+
         debugRenderer->addLine(Vec3f::zero, Vec3f::i);
         debugRenderer->addLine(Vec3f::zero, Vec3f::j, Color(COL_GREEN));
         debugRenderer->addLine(Vec3f::zero, Vec3f::k, Color(COL_BLUE));
@@ -223,7 +221,7 @@ int main(int argc, char* args[])
 		dt = delta.elapsed();
 	}
 
-    texManager.unloadAllTextures();
+    TextureManager::instance().unloadAllTextures();
 
     delete plane;
     delete debugRenderer;
