@@ -45,7 +45,7 @@ namespace muon {
 			glfwMakeContextCurrent(_window);
 			glfwSetWindowSizeCallback(_window, window_size_callback);
 			glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
-			
+
 			gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 			INFO("OpenGL: " << glGetString(GL_VERSION));
 
@@ -63,7 +63,7 @@ namespace muon {
 			return true;
 		}
 
-		void Window::update() 
+		void Window::update()
 		{
 			if (glfwWindowShouldClose(_window)) {
 				_running = false;
@@ -95,7 +95,7 @@ namespace muon {
 			glViewport(0, 0, width, height);
 		}
 
-		void Window::window_size_callback(GLFWwindow* window, int width, int height) 
+		void Window::window_size_callback(GLFWwindow* window, int width, int height)
 		{
 			Window* win = (Window*)glfwGetWindowUserPointer(window);
 			win->_width = width;
