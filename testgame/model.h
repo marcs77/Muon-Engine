@@ -8,10 +8,16 @@ namespace muongame {
 using namespace muon;
 using namespace graphics;
 
+enum ModelAttributes {
+    ONLY_VERTICES,
+    VERTICES_UV,
+    VERTICES_UV_NORMALS
+};
+
 class Model
 {
 public:
-    Model(GLfloat* vertices, GLsizei vetexArraySize, GLuint* indices, GLsizei indexArraySize);
+    Model(GLfloat* vertexData, GLsizei vetexArraySize, GLuint* indices, GLsizei indexArraySize, ModelAttributes attribs = ModelAttributes::ONLY_VERTICES);
     ~Model();
 
     Color baseColor;

@@ -42,7 +42,8 @@ namespace muongame {
     {
     public:
         TestGame(graphics::Window* window) : Application(window), cam(Vec3f(0, 1, 1)),
-        plane(planeV, sizeof(planeV), planeI, sizeof(planeI))
+        plane(planeV, sizeof(planeV), planeI, sizeof(planeI)),
+        texQuad(texturedQuadV, sizeof(texturedQuadV), texturedQuadI, sizeof(texturedQuadI), ModelAttributes::VERTICES_UV_NORMALS)
         {
             instance = this;
         }
@@ -57,11 +58,16 @@ namespace muongame {
         static GLfloat planeV[12];
         static GLuint planeI[6];
 
+        static GLfloat texturedQuadV[32];
+        static GLuint texturedQuadI[6];
+
 
         Texture *t,*t2,*t3;
-        Shader* shader;
+        Shader* mapShader;
+        Shader* standard;
         DebugCam cam;
         Model plane;
+        Model texQuad;
 
         float mapScroll = 0;
         int mapOffset = 0;
@@ -73,15 +79,17 @@ namespace muongame {
             t2 = TextureManager::instance().loadTexture("resources/textures/test2.png", "test2");
             t3 = TextureManager::instance().loadTexture("resources/textures/fat.jpg", "fat");
 
-            shader = new Shader("resources/shaders/simpleVertex.glsl", "resources/shaders/simpleFragment.glsl");
-
+            mapShader = new Shader("resources/shaders/mapVertex.glsl", "resources/shaders/mapFragment.glsl");
+            standard = new Shader("resources/shaders/standardVertex.glsl", "resources/shaders/standardFragment.glsl");
         }
 
         void init() {
 
+            INFO(Vec3f(2,-3,1).normalized());
+
             glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-            ShaderManager::useShader(shader);
+            ShaderManager::useShader(mapShader);
             ShaderManager::setProjectionMatrix(Mat4::perspective(80, window->getAspectRatio(), 0.1f, 500.0f));
 
             for(int z = 0; z < LEVEL_LENGTH; z++) {
@@ -108,27 +116,25 @@ namespace muongame {
 
         void render() {
 
-
-
             //Set view matrix
-            ShaderManager::useShader(shader);
+            ShaderManager::useShader(mapShader);
             ShaderManager::setViewMatrix(cam.viewMatrix);
 
             //Debug rendering
             debugRenderer.addAABB(AABBf(Vec3f(1,0,1), Vec3f(2,1,2)));
 
-            debugRenderer.addLine(Vec3f::zero, Vec3f::i);
+            debugRenderer.addLine(Vec3f::zero, Vec3f::i, Color(COL_RED));
             debugRenderer.addLine(Vec3f::zero, Vec3f::j, Color(COL_GREEN));
             debugRenderer.addLine(Vec3f::zero, Vec3f::k, Color(COL_BLUE));
 
             debugRenderer.draw();
 
             //Map uniforms
-            ShaderManager::useShader(shader);
-            shader->setUniform3f("camPos", cam.position);
-            shader->setUniform1f("colorDivisions", 30.0f);
-            shader->setUniformColor("base_color", Color(COL_CYAN));
-            shader->setUniform1f("mapScroll", mapScroll);
+            ShaderManager::useShader(mapShader);
+            mapShader->setUniform3f("camPos", cam.position);
+            mapShader->setUniform1f("colorDivisions", 30.0f);
+            mapShader->setUniformColor("base_color", Color(COL_CYAN));
+            mapShader->setUniform1f("mapScroll", mapScroll);
 
             for(int z = 0; z < LEVEL_DISTANCE; z++)
             {
@@ -141,10 +147,17 @@ namespace muongame {
                 }
             }
 
+            ShaderManager::useShader(standard);
+            ShaderManager::setModelMatrix(Mat4::translation(Vec3f(-1,1,-1)));
+            t3->bind();
+            texQuad.draw();
+
         }
 
         void dispose() {
             TextureManager::instance().unloadAllTextures();
+            delete mapShader;
+            delete standard;
         }
     };
 
@@ -157,7 +170,19 @@ namespace muongame {
 
     GLuint TestGame::planeI[] = {
         2,3,1,
-        1,0,3,
+        1,3,0,
+    };
+
+    GLfloat TestGame::texturedQuadV[] = {
+        0,0,0, 0,0, 0.9345, -0.801, 0.267,
+        0,1,0, 0,1, 0.5345, 0.801, 0.267,
+        1,1,0, 1,1, 0.2345, -0.301, 0.667,
+        1,0,0, 1,0, 0.1345, 0.401, 0.967,
+    };
+
+    GLuint TestGame::texturedQuadI[] = {
+        2,1,3,
+        1,0,3
     };
 
     TestGame* TestGame::instance = NULL;

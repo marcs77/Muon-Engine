@@ -23,7 +23,7 @@ x look at matrix
 - blending
 - cube maps
 - component system
-- game framework
+[] game framework
 - event system
 x use cmake
 x linux support
