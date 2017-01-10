@@ -1,8 +1,6 @@
-
-#include "muon.h"
+#include <muon.h>
 #include "build_info.h"
 #include "debugcam.h"
-#include "model.h"
 #include <ctime>
 #include <vector>
 
@@ -37,13 +35,14 @@ namespace muongame {
 
     using namespace muon;
     using namespace math;
+	using namespace graphics;
 
     class TestGame : public Application
     {
     public:
         TestGame(graphics::Window* window) : Application(window), cam(Vec3f(0, 1, 1)),
         plane(planeV, sizeof(planeV), planeI, sizeof(planeI)),
-        texQuad(texturedQuadV, sizeof(texturedQuadV), texturedQuadI, sizeof(texturedQuadI), ModelAttributes::VERTICES_UV_NORMALS)
+        texQuad(texturedQuadV, sizeof(texturedQuadV), texturedQuadI, sizeof(texturedQuadI), MeshAttributes::VERTICES_UV_NORMALS)
         {
             instance = this;
         }
@@ -51,7 +50,6 @@ namespace muongame {
         static TestGame* instance;
 
         DebugRenderer debugRenderer;
-
 
     private:
 
@@ -66,8 +64,8 @@ namespace muongame {
         Shader* mapShader;
         Shader* standard;
         DebugCam cam;
-        Model plane;
-        Model texQuad;
+        MeshData plane;
+		MeshData texQuad;
 
         float mapScroll = 0;
         int mapOffset = 0;
@@ -87,7 +85,7 @@ namespace muongame {
 
             INFO(Vec3f(2,-3,1).normalized());
 
-            glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            //glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
             ShaderManager::useShader(mapShader);
             ShaderManager::setProjectionMatrix(Mat4::perspective(80, window->getAspectRatio(), 0.1f, 500.0f));
@@ -142,7 +140,7 @@ namespace muongame {
                 {
                     if(map[x+(z+mapOffset)*5]) {
                         ShaderManager::setModelMatrix(Mat4::translation(Vec3f(x,0,z+mapScroll)));
-                        plane.draw();
+                        plane.drawElements();
                     }
                 }
             }
@@ -150,7 +148,7 @@ namespace muongame {
             ShaderManager::useShader(standard);
             ShaderManager::setModelMatrix(Mat4::translation(Vec3f(-1,1,-1)));
             t3->bind();
-            texQuad.draw();
+            texQuad.drawElements();
 
         }
 
