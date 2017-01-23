@@ -33,11 +33,13 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests." FORCE)
 add_subdirectory (dependencies/glad)
 add_subdirectory (dependencies/freetype)
 add_subdirectory (dependencies/freetype-gl)
+add_subdirectory (dependencies/assimp)
 
 set_property(TARGET glfw PROPERTY FOLDER "dependencies")
 set_property(TARGET glad PROPERTY FOLDER "dependencies")
 set_property(TARGET freetype PROPERTY FOLDER "dependencies")
 set_property(TARGET freetype-gl PROPERTY FOLDER "dependencies")
+set_property(TARGET assimp PROPERTY FOLDER "dependencies")
 
 #Engine
 add_subdirectory (core)

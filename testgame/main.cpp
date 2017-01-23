@@ -59,7 +59,6 @@ namespace muongame {
         static GLfloat texturedQuadV[32];
         static GLuint texturedQuadI[6];
 
-
         Texture *t,*t2,*t3;
         Shader* mapShader;
         Shader* standard;

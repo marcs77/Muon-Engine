@@ -8,6 +8,7 @@ include_directories (../dependencies/glad/include)
 include_directories (../dependencies/FreeImage/include)
 include_directories (../dependencies/freetype/include)
 include_directories (../dependencies/freetype-gl)
+include_directories (../dependencies/assimp/include)
 
 add_executable (TestGame ${MUON_GAME_SRC} ${MUON_GAME_INCLUDE})
 

@@ -27,6 +27,7 @@ include_directories (../dependencies/glad/include)
 include_directories (../dependencies/FreeImage/include)
 include_directories (../dependencies/freetype/include)
 include_directories (../dependencies/freetype-gl)
+include_directories (../dependencies/assimp/include)
 
 add_library(MuonCore ${MUON_CORE_SRC} ${MUON_CORE_INCLUDE})
 
@@ -37,6 +38,7 @@ target_link_libraries(MuonCore glfw ${GLFW_LIBRARIES})
 target_link_libraries(MuonCore glad)
 target_link_libraries(MuonCore freetype)
 target_link_libraries(MuonCore freetype-gl)
+target_link_libraries(MuonCore assimp)
 
 if(WIN32 OR WIN64)
 	target_link_libraries(MuonCore ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/freeimage)
