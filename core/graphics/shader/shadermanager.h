@@ -22,7 +22,7 @@ public:
 
     static inline Shader* getCurrentShader() { return _currentShader; }
 
-    static void useShader(Shader* shader);
+    static void useShader(const Shader* shader);
     static void disableShader();
 
 	static void setProjectionMatrix(const math::Mat4& matrix);

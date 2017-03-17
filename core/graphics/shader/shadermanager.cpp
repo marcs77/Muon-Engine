@@ -8,9 +8,9 @@ namespace graphics {
 	math::Mat4 ShaderManager::_viewMatrix(1.0);
 	math::Mat4 ShaderManager::_projMatrix(1.0);
 
-    void ShaderManager::useShader(Shader *shader) {
+    void ShaderManager::useShader(const Shader *shader) {
         if(_currentShader != shader) {
-            _currentShader = shader;
+            _currentShader = (Shader*) shader;
             glUseProgram(_currentShader->shaderId);
 			setModelMatrix(_modelMatrix);
 			setViewMatrix(_viewMatrix);

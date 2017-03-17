@@ -41,15 +41,17 @@ namespace muongame {
     {
     public:
         TestGame(graphics::Window* window) : Application(window), cam(Vec3f(0, 1, 1)),
-        plane(planeV, sizeof(planeV), planeI, sizeof(planeI)),
-        texQuad(texturedQuadV, sizeof(texturedQuadV), texturedQuadI, sizeof(texturedQuadI), MeshAttributes::VERTICES_UV_NORMALS)
+        plane(planeV, sizeof(planeV), planeI, sizeof(planeI)), 
+			nano("resources/models/nanosuit.obj")
         {
-            instance = this;
-        }
+
+		}	
+		
 
         static TestGame* instance;
 
         DebugRenderer debugRenderer;
+		StandardRenderer renderer;
 
     private:
 
@@ -64,27 +66,65 @@ namespace muongame {
         Shader* standard;
         DebugCam cam;
         MeshData plane;
-		MeshData texQuad;
+		MeshData* texQuad;
+		Model nano;
 
         float mapScroll = 0;
         int mapOffset = 0;
 
         bool map[LEVEL_WIDTH*LEVEL_LENGTH];
+		
+
+		Vertex v[4];
+		GLuint in[6];
+		std::vector<Vertex> verts;
+		std::vector<GLuint> indices;
+		std::vector<Texture*> tex;
 
         void loadResources() {
-            t = TextureManager::instance().loadTexture("resources/textures/test.png", "test");
-            t2 = TextureManager::instance().loadTexture("resources/textures/test2.png", "test2");
-            t3 = TextureManager::instance().loadTexture("resources/textures/fat.jpg", "fat");
+            t = TextureManager::instance().loadTexture("resources/textures/test.png");
+            t2 = TextureManager::instance().loadTexture("resources/textures/test2.png");
+            t3 = TextureManager::instance().loadTexture("resources/textures/fat.jpg");
 
             mapShader = new Shader("resources/shaders/mapVertex.glsl", "resources/shaders/mapFragment.glsl");
-            standard = new Shader("resources/shaders/standardVertex.glsl", "resources/shaders/standardFragment.glsl");
+            standard = new Shader("resources/shaders/simpleVertex.glsl", "resources/shaders/simpleFragment.glsl");
+
+			
+			v[0].position = Vec3f(0, 0, 0);
+			v[1].position = Vec3f(0, 1, 0);
+			v[2].position = Vec3f(1, 1, 0);
+			v[3].position = Vec3f(1, 0, 0);
+			v[0].uv = Vec2f(0, 0);
+			v[1].uv = Vec2f(0, 1);
+			v[2].uv = Vec2f(1, 1);
+			v[3].uv = Vec2f(1, 0);
+
+			
+			for (int i = 0; i < 4; i++) {
+				verts.push_back(v[i]);
+			}
+			in[0] = 2;
+			in[1] = 3;
+			in[2] = 1;
+			in[3] = 1;
+			in[4] = 3;
+			in[5] = 0;
+
+			
+			for (int i = 0; i < 6; i++) {
+				indices.push_back(in[i]);
+			}
+			tex.push_back(t);
+			
+			texQuad = new MeshData(verts, indices, tex);
+
         }
 
         void init() {
 
             INFO(Vec3f(2,-3,1).normalized());
 
-            //glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
             ShaderManager::useShader(mapShader);
             ShaderManager::setProjectionMatrix(Mat4::perspective(80, window->getAspectRatio(), 0.1f, 500.0f));
@@ -112,7 +152,7 @@ namespace muongame {
         }
 
         void render() {
-
+			
             //Set view matrix
             ShaderManager::useShader(mapShader);
             ShaderManager::setViewMatrix(cam.viewMatrix);
@@ -125,7 +165,7 @@ namespace muongame {
             debugRenderer.addLine(Vec3f::zero, Vec3f::k, Color(COL_BLUE));
 
             debugRenderer.draw();
-
+			/*
             //Map uniforms
             ShaderManager::useShader(mapShader);
             mapShader->setUniform3f("camPos", cam.position);
@@ -147,7 +187,10 @@ namespace muongame {
             ShaderManager::useShader(standard);
             ShaderManager::setModelMatrix(Mat4::translation(Vec3f(-1,1,-1)));
             t3->bind();
-            texQuad.drawElements();
+            texQuad->drawElements();
+			*/
+			ShaderManager::setModelMatrix(Mat4::translation(Vec3f(0, 0, 0)) * Mat4::scale(10));
+			renderer.drawModel(&nano);
 
         }
 
@@ -155,6 +198,7 @@ namespace muongame {
             TextureManager::instance().unloadAllTextures();
             delete mapShader;
             delete standard;
+			delete texQuad;
         }
     };
 

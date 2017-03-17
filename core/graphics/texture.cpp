@@ -3,8 +3,8 @@
 namespace muon {
 	namespace graphics {
 
-		Texture::Texture(std::string path, GLuint id, GLsizei width, GLsizei height)
-			: _path(path), _id(id), _width(width), _height(height)
+		Texture::Texture(std::string path, GLuint id, GLsizei width, GLsizei height, TextureType type)
+			: _path(path), _id(id), _width(width), _height(height), _type(type)
 		{
 
 		}

@@ -13,13 +13,24 @@ namespace muon {
 		class TextureManager {
 		public:
 
+			static constexpr const char* DEFAULT_TEXTURE_PATH = "resources/textures/";
+
             static TextureManager& instance();
 
 			~TextureManager();
 
 			Texture* loadTexture(
-				const char* path,
 				std::string textureName,
+				const char* path,
+				TextureType type = DEFAULT,
+				GLenum filtering = GL_LINEAR,
+				GLint level = 0,
+				GLint border = 0);
+
+			Texture* loadTexture(
+				const char* path,
+				TextureType type = DEFAULT,
+				GLenum filtering = GL_LINEAR,
 				GLint level = 0,
 				GLint border = 0);
 

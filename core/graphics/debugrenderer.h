@@ -1,7 +1,7 @@
 #ifndef DEBUGRENDERER_H
 #define DEBUGRENDERER_H
-#include "shader.h"
-#include "shadermanager.h"
+#include "shader/shader.h"
+#include "shader/shadermanager.h"
 #include <vector>
 #include "../math/vec3.h"
 #include "buffer/buffer.h"

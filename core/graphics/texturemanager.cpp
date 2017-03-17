@@ -20,8 +20,10 @@ namespace muon {
 		}
 
 		Texture* TextureManager::loadTexture(
-			const char* path,
 			std::string textureName,
+			const char* path,
+			TextureType type,
+			GLenum filtering,
 			GLint level,
 			GLint border)
 		{
@@ -81,12 +83,12 @@ namespace muon {
 			//generate an OpenGL texture ID for this texture
 			glGenTextures(1, &gl_texID);
 			//store the texture ID mapping
-			_textures[textureName] = new Texture(path, gl_texID, width, height);
+			_textures[textureName] = new Texture(path, gl_texID, width, height, type);
 			//bind to the new texture ID
 			glBindTexture(GL_TEXTURE_2D, gl_texID);
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
 
 			//store the texture data for OpenGL use
             glTexImage2D(GL_TEXTURE_2D, level, GL_RGB, width, height,
@@ -96,6 +98,11 @@ namespace muon {
 			FreeImage_Unload(dib);
 
 			return _textures[textureName];
+		}
+
+		Texture * TextureManager::loadTexture(const char * path, TextureType type, GLenum filtering, GLint level, GLint border)
+		{
+			return loadTexture(path, path, type, filtering, level, border);
 		}
 
 		bool TextureManager::bindTexture(std::string textureName)

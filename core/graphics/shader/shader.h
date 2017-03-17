@@ -2,15 +2,15 @@
 #define SHADER_H
 
 #include <glad/glad.h>
-#include "../util/fileutils.h"
-#include "../math/vec2.h"
-#include "../math/vec3.h"
-#include "../math/vec4.h"
-#include "../math/mat4.h"
+#include "../../util/fileutils.h"
+#include "../../math/vec2.h"
+#include "../../math/vec3.h"
+#include "../../math/vec4.h"
+#include "../../math/mat4.h"
 #include <vector>
 #include <map>
-#include "../util/log.h"
-#include "util/color.h"
+#include "../../util/log.h"
+#include "../../util/color.h"
 
 namespace muon {
 	namespace graphics {
@@ -38,7 +38,11 @@ namespace muon {
 			void setUniform4f(const GLchar* name, const math::Vec4f& val);
 			void setUniformMat4(const GLchar* name, const math::Mat4& val);
 			void setUniformColor(const GLchar* name, const Color& val);
+		};
 
+		class StandardShader : public Shader{
+		public:
+			StandardShader();
 
 		};
 	}

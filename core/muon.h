@@ -3,7 +3,7 @@
 //#include "graphics/batchrenderer2d.h"
 //#include "graphics/renderable2d.h"
 //#include "graphics/renderer2d.h"
-#include "graphics/shader.h"
+#include "graphics/shader/shader.h"
 //#include "graphics/simplerenderer2d.h"
 //#include "graphics/sprite.h"
 //#include "graphics/staticsprite.h"
@@ -18,9 +18,11 @@
 //#include "graphics/layer/tilelayer.h"
 //#include "graphics/text/font.h"
 //#include "graphics/text/label.h"
-#include "graphics/shadermanager.h"
+#include "graphics/shader/shadermanager.h"
 #include "graphics/debugrenderer.h"
-#include "graphics/meshdata.h"
+#include "graphics/model/meshdata.h"
+#include "graphics/model/model.h"
+#include "graphics/standardrenderer.h"
 
 #include "input/input.h"
 
