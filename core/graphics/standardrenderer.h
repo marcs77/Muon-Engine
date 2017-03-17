@@ -13,8 +13,8 @@ namespace graphics {
 
 		StandardRenderer();
 
-		void drawMesh(const MeshData* mesh) const;
-		void drawModel(const Model* model) const;
+		void drawMesh(math::Mat4* modelMatrix, const MeshData* mesh) const;
+		void drawModel(math::Mat4* modelMatrix, const Model* model) const;
 	private:
 		Shader shader;
 	};

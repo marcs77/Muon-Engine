@@ -17,6 +17,8 @@ namespace graphics {
 	public:
 		Model(const char* path);
 		std::vector<MeshData> meshes;
+
+		~Model();
 	private:
 		std::string path;
 

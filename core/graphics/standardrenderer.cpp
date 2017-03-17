@@ -11,9 +11,10 @@ namespace graphics {
 
 	}
 
-	void StandardRenderer::drawMesh(const MeshData* mesh) const
+	void StandardRenderer::drawMesh(math::Mat4* modelMatrix, const MeshData* mesh) const
 	{
 		ShaderManager::useShader(&shader);
+		ShaderManager::setModelMatrix(*modelMatrix);
 
 		int diffuseN = 0;
 		int specularN = 0;
@@ -46,11 +47,11 @@ namespace graphics {
 
 	}
 
-	void StandardRenderer::drawModel(const Model * model) const
+	void StandardRenderer::drawModel(math::Mat4* modelMatrix, const Model * model) const
 	{
 		for (int i = 0; i < model->meshes.size(); i++)
 		{
-			drawMesh(&model->meshes[i]);
+			drawMesh(modelMatrix, &model->meshes[i]);
 		}
 	}
 

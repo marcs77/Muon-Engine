@@ -134,6 +134,14 @@ namespace graphics {
 		return textures;
 	}
 
+	Model::~Model() 
+	{
+		for (int i = 0; i < meshes.size(); i++) 
+		{
+			meshes.at(i).disposeBuffers();
+		}
+	}
+
 }
 }
 

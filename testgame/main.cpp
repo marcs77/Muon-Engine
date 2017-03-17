@@ -189,8 +189,9 @@ namespace muongame {
             t3->bind();
             texQuad->drawElements();
 			*/
-			ShaderManager::setModelMatrix(Mat4::translation(Vec3f(0, 0, 0)) * Mat4::scale(10));
-			renderer.drawModel(&nano);
+			ShaderManager::useShader(standard);
+			Mat4 transform = Mat4::translation(Vec3f(0, 0, 0)) * Mat4::scale(0.1);
+			renderer.drawModel(&transform, &nano);
 
         }
 

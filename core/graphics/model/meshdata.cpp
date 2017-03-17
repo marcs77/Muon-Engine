@@ -55,6 +55,11 @@ namespace graphics {
 
 	MeshData::~MeshData()
 	{
+		
+	}
+
+	void MeshData::disposeBuffers()
+	{
 		delete _vao;
 		delete _vbo;
 		delete _ebo;

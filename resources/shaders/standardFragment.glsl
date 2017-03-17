@@ -13,5 +13,5 @@ uniform sampler2D specular1;
 uniform sampler2D specular2;
 
 void main() {
-    out_color = vec4(1,1,1,1);
+    out_color = texture(diff0, _uv);
 }

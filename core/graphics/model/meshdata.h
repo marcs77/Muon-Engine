@@ -37,6 +37,8 @@ namespace graphics {
 
 		std::vector<Texture*> textures;
 
+		void disposeBuffers();
+
 	private:
 
 		std::vector<Vertex> _vertices;
