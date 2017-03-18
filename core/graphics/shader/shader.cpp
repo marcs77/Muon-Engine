@@ -15,10 +15,15 @@ namespace muon {
 
 		GLint Shader::getUniformLocation(const GLchar * name)
 		{
-			if (_shaderUniforms.find(name) == _shaderUniforms.end()) {
-				_shaderUniforms[name] = glGetUniformLocation(shaderId, name);
+			//TODO: find() is very inefficient, to be optimized. 
+			auto uniform = _shaderUniforms.find(name);
+			if (uniform == _shaderUniforms.end()) {
+				GLint id = glGetUniformLocation(shaderId, name);
+				_shaderUniforms.emplace(name, id);
+				return id;
 			}
-			return _shaderUniforms[name];
+
+			return (*uniform).second;
 		}
 
 		void Shader::setUniform1f(const GLchar * name, float val)

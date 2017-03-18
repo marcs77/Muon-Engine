@@ -8,7 +8,7 @@
 #include "../../math/vec4.h"
 #include "../../math/mat4.h"
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "../../util/log.h"
 #include "../../util/color.h"
 
@@ -20,7 +20,7 @@ namespace muon {
 			const char *_vertexPath, *_fragmentPath;
 			GLuint load();
 			GLuint loadShader(GLuint type, const char* path, bool &success);
-			std::map<const GLchar*, GLint> _shaderUniforms;
+			std::unordered_map<const GLchar*, GLint> _shaderUniforms;
 
 		public:
 			Shader(const char* vertexPath, const char* fragmentPath);

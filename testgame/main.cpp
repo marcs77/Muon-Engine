@@ -165,7 +165,7 @@ namespace muongame {
             debugRenderer.addLine(Vec3f::zero, Vec3f::k, Color(COL_BLUE));
 
             debugRenderer.draw();
-			/*
+			
             //Map uniforms
             ShaderManager::useShader(mapShader);
             mapShader->setUniform3f("camPos", cam.position);
@@ -186,11 +186,12 @@ namespace muongame {
 
             ShaderManager::useShader(standard);
             ShaderManager::setModelMatrix(Mat4::translation(Vec3f(-1,1,-1)));
+			glActiveTexture(GL_TEXTURE0);
             t3->bind();
             texQuad->drawElements();
-			*/
+			
 			ShaderManager::useShader(standard);
-			Mat4 transform = Mat4::translation(Vec3f(0, 0, 0)) * Mat4::scale(0.1);
+			Mat4 transform = Mat4::translation(Vec3f(0, 0, 0)) * Mat4::scale(0.3);
 			renderer.drawModel(&transform, &nano);
 
         }
