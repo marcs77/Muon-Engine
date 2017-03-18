@@ -13,6 +13,7 @@ DebugCam::DebugCam(math::Vec3f pos, math::Vec3f up)
 
 void DebugCam::update(float deltaTime)
 {
+	//TODO: Use quaternions
     using namespace input;
     using namespace math;
     Vec2f deltaMouse =  Input::getMousePosition() - _prevMousePos;

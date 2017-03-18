@@ -52,6 +52,7 @@ namespace muongame {
 
         DebugRenderer debugRenderer;
 		StandardRenderer renderer;
+		BatchRenderer2D batchRenderer;
 
     private:
 
@@ -135,6 +136,7 @@ namespace muongame {
                 }
             }
 
+			batchRenderer.setProjectionMatrix(Mat4::ortho(0, window->getWidth(), 0, window->getHeight(), -2, 10));
 
         }
 
@@ -153,8 +155,10 @@ namespace muongame {
 
         void render() {
 			
+			/*
             //Set view matrix
             ShaderManager::useShader(mapShader);
+			ShaderManager::setProjectionMatrix(Mat4::perspective(80, window->getAspectRatio(), 0.1f, 500.0f));
             ShaderManager::setViewMatrix(cam.viewMatrix);
 
             //Debug rendering
@@ -193,7 +197,14 @@ namespace muongame {
 			ShaderManager::useShader(standard);
 			Mat4 transform = Mat4::translation(Vec3f(0, 0, 0)) * Mat4::scale(0.3);
 			renderer.drawModel(&transform, &nano);
+			*/
 
+			Sprite coso(t, {40*sinf(mapScroll),40}, {100,100});
+
+			batchRenderer.begin();
+			batchRenderer.submit(coso);
+			batchRenderer.end();
+			batchRenderer.flush();
         }
 
         void dispose() {

@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "graphics/batchrenderer2d.h"
+#include "graphics/batchrenderer2d.h"
 //#include "graphics/renderable2d.h"
 //#include "graphics/renderer2d.h"
 #include "graphics/shader/shader.h"
@@ -23,6 +23,7 @@
 #include "graphics/model/meshdata.h"
 #include "graphics/model/model.h"
 #include "graphics/standardrenderer.h"
+
 
 #include "input/input.h"
 

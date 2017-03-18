@@ -21,7 +21,7 @@ namespace graphics {
 		static constexpr int MAX_DIFFUSE = 3;
 		static constexpr int MAX_SPECULAR = 3;
 
-		//TODO: temporal setup
+		//TODO: temporal setup until materials are implemented
 		for (int i = 0; i < mesh->textures.size(); i++) {
 			if (mesh->textures[i]->getType() == SPECULAR_MAP) {
 				continue;
