@@ -155,7 +155,7 @@ namespace muongame {
 
         void render() {
 			
-			/*
+			
             //Set view matrix
             ShaderManager::useShader(mapShader);
 			ShaderManager::setProjectionMatrix(Mat4::perspective(80, window->getAspectRatio(), 0.1f, 500.0f));
@@ -197,12 +197,23 @@ namespace muongame {
 			ShaderManager::useShader(standard);
 			Mat4 transform = Mat4::translation(Vec3f(0, 0, 0)) * Mat4::scale(0.3);
 			renderer.drawModel(&transform, &nano);
-			*/
+			
+			Sprite sprites[] = {
+				{ t3, { 10, (float)(window->getHeight() - 60)}, { 700,50 }},
+				{ Color(COL_RED), {(float) window->getWidth() / 2, (float)window->getHeight() / 2}, { 6,6 }, },
+				{ Color(COL_WHITE),{ 10, 10 },{ 70, 70 } },
+				{ Color(COL_GREY), {40, 40}, {70, 70}},
+				{ Color(COL_BLACK),{ 70, 70 },{ 70, 70 } },
+			};
 
-			Sprite coso(Color(COL_YELLOW), {10,10}, {200,100});
+			sprites[1].anchor = { 0.5, 0.5 };
 
 			batchRenderer.begin();
-			batchRenderer.submit(coso);
+			//order is reversed
+			for (int i = sizeof(sprites) / sizeof(Sprite) - 1; i >= 0; i--)
+			{
+				batchRenderer.submit(sprites[i]);
+			}
 			batchRenderer.end();
 			batchRenderer.flush();
         }

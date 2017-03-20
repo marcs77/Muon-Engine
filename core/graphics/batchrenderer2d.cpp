@@ -75,7 +75,9 @@ namespace graphics {
 
 	void BatchRenderer2D::flush()
 	{
-		glDisable(GL_CULL_FACE);
+		//TODO: decide between using culling or handling the rendering order manually
+		//and test which one is more efficient
+		glCullFace(GL_FRONT);
 		ShaderManager::useShader(&batchShader);
 		ShaderManager::setProjectionMatrix(_projectionMatrix);
 
@@ -91,9 +93,9 @@ namespace graphics {
 
 
 		_indexCount = 0;
-
+		
 		ShaderManager::disableShader();
-		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 	}
 
 	Renderable2D BatchRenderer2D::createRenderable2D(const Sprite & sprite)
@@ -107,7 +109,7 @@ namespace graphics {
 		result.vertices[3].pos = sprite.position - offset;
 		result.vertices[3].pos.x += sprite.size.x;
 
-		short textureSlot = 0;
+		short textureSlot = -1;
 		if(sprite.texture) 
 		{
 			textureSlot = getTextureSlot(sprite.texture->getId());;
