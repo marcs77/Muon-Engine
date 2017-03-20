@@ -16,7 +16,7 @@ namespace graphics {
 	{
 		math::Vec2f pos; //TODO: Make Vec3f to enable depth
 		math::Vec2f uv;
-		Color color;
+		unsigned int color;
 		short textureSlot;
 	};
 
@@ -44,6 +44,7 @@ namespace graphics {
 		Color color = Color(COL_WHITE);
 
 		Sprite(Texture* texture, math::Vec2f position, math::Vec2f size);
+		Sprite(Texture* texture, math::Vec2f position, math::Vec2f size, Color color);
 		Sprite(Color color, math::Vec2f position, math::Vec2f size);
 	};
 
@@ -52,6 +53,7 @@ namespace graphics {
 	class BatchRenderer2D {
 	public:
 		BatchRenderer2D();
+		//TODO: implement BatchRenderer2D(Shader* shader); 
 		~BatchRenderer2D();
 
 		void begin();
