@@ -7,11 +7,10 @@ namespace graphics {
 		shader("resources/shaders/debugVertex.glsl", "resources/shaders/debugFragment.glsl"), 
         drawnLines(0), vao(new VertexArray()), vertexBuffer(new Buffer())
 	{
-        vertexBuffer->load(NULL, SIZE * sizeof(GLfloat), GL_DYNAMIC_DRAW);
+        vertexBuffer->load(NULL, SIZE, GL_DYNAMIC_DRAW);
         VertexArray::bind(vao);
-		//TODO: use 4 bytes for loading the color
-        vao->addVertexAttributePointer(vertexBuffer, 0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-        vao->addVertexAttributePointer(vertexBuffer, 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
+        vao->addVertexAttributePointer(vertexBuffer, 0, 3, GL_FLOAT, GL_FALSE, sizeof(LineVertex), (GLvoid*)0);
+        vao->addVertexAttributePointer(vertexBuffer, 1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(LineVertex), (GLvoid*)offsetof(LineVertex, LineVertex::color));
 		VertexArray::unbind();
 
 		setLineWidth(2);
@@ -30,19 +29,8 @@ namespace graphics {
 			return;
 		}
 
-		currentLines.push_back(a.x);
-		currentLines.push_back(a.y);
-		currentLines.push_back(a.z);
-		currentLines.push_back(c1.getRf());
-		currentLines.push_back(c1.getGf());
-		currentLines.push_back(c1.getBf());
-
-		currentLines.push_back(b.x);
-		currentLines.push_back(b.y);
-		currentLines.push_back(b.z);
-		currentLines.push_back(c2.getRf());
-		currentLines.push_back(c2.getGf());
-		currentLines.push_back(c2.getBf());
+		currentLines.push_back({ a, c1.ABGR() });
+		currentLines.push_back({ b, c2.ABGR() });
 
 		drawnLines++;
 	}
@@ -51,9 +39,9 @@ namespace graphics {
 	{
 		ShaderManager::useShader(&shader);
 		ShaderManager::setModelMatrix(math::Mat4::identity());
-
+		//NOTE: Maybe use glMapBuffer?
         Buffer::bind(vertexBuffer);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, currentLines.size() * sizeof(GLfloat), currentLines.data());
+		glBufferSubData(GL_ARRAY_BUFFER, 0, currentLines.size() * sizeof(LineVertex), currentLines.data());
         Buffer::unbind(vertexBuffer);
 
         VertexArray::bind(vao);

@@ -14,6 +14,12 @@
 namespace muon {
 namespace graphics {
 	
+	struct LineVertex 
+	{
+		math::Vec3f pos;
+		unsigned int color;
+	};
+
 	class DebugRenderer
 	{
 
@@ -34,10 +40,10 @@ namespace graphics {
 
 	private:
         constexpr static int MAX_LINES = 200;
-		constexpr static int FLOATS_PER_LINE = 6; // x,y,z, r,g,b
-		constexpr static int SIZE = MAX_LINES * 2 * FLOATS_PER_LINE;
-		GLfloat lines [SIZE];
-		std::vector<GLfloat> currentLines;
+		constexpr static int VERTEX_SIZE = sizeof(LineVertex); 
+		constexpr static int SIZE = MAX_LINES * VERTEX_SIZE;
+
+		std::vector<LineVertex> currentLines;
 
 		int drawnLines;
 
