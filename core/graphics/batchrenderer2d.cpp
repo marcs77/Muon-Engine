@@ -30,10 +30,10 @@ namespace graphics {
 		Buffer::bind(_vbo);
 		_vao->addVertexAttributePointer(_vbo, 0, 2, GL_FLOAT, GL_FALSE, BATCHRENDERER_VERTEX_SIZE, (const GLvoid*)offsetof(Vertex2D, Vertex2D::pos));
 		_vao->addVertexAttributePointer(_vbo, 1, 2, GL_FLOAT, GL_FALSE, BATCHRENDERER_VERTEX_SIZE, (const GLvoid*)offsetof(Vertex2D, Vertex2D::uv));
-		_vao->addVertexAttributePointer(_vbo, 2, 4, GL_FLOAT, GL_TRUE, BATCHRENDERER_VERTEX_SIZE, (const GLvoid*)offsetof(Vertex2D, Vertex2D::color));
+		_vao->addVertexAttributePointer(_vbo, 2, 4, GL_UNSIGNED_BYTE, GL_TRUE, BATCHRENDERER_VERTEX_SIZE, (const GLvoid*)offsetof(Vertex2D, Vertex2D::color));
 		_vao->addVertexAttributePointer(_vbo, 3, 1, GL_SHORT, GL_FALSE, BATCHRENDERER_VERTEX_SIZE, (const GLvoid*)offsetof(Vertex2D, Vertex2D::textureSlot));
 		
-		Buffer::unbind(_vbo);
+		//Buffer::unbind(_vbo);
 		Buffer::bind(_ebo);
 		
 		VertexArray::unbind();
@@ -75,7 +75,7 @@ namespace graphics {
 
 	void BatchRenderer2D::flush()
 	{
-
+		glDisable(GL_CULL_FACE);
 		ShaderManager::useShader(&batchShader);
 		ShaderManager::setProjectionMatrix(_projectionMatrix);
 
@@ -93,7 +93,7 @@ namespace graphics {
 		_indexCount = 0;
 
 		ShaderManager::disableShader();
-
+		glEnable(GL_CULL_FACE);
 	}
 
 	Renderable2D BatchRenderer2D::createRenderable2D(const Sprite & sprite)
@@ -107,13 +107,19 @@ namespace graphics {
 		result.vertices[3].pos = sprite.position - offset;
 		result.vertices[3].pos.x += sprite.size.x;
 
-		short textureSlot = getTextureSlot(sprite.texture->getId());;
+		short textureSlot = 0;
+		if(sprite.texture) 
+		{
+			textureSlot = getTextureSlot(sprite.texture->getId());;
+		}
+
+		uint32_t color = sprite.color.ABGR();
 
 		for (int i = 0; i < 4; i++) 
 		{
 			result.vertices[i].uv = sprite.uvs[i];
 			result.vertices[i].textureSlot = textureSlot;
-			result.vertices[i].color = sprite.color;
+			result.vertices[i].color = color;
 		}
 
 		return result;
@@ -154,7 +160,19 @@ namespace graphics {
 	}
 
 	Sprite::Sprite(Texture * texture, math::Vec2f position, math::Vec2f size) :
-		texture(texture), position(position), size(size), anchor(math::Vec2f::zero)
+		texture(texture), position(position), size(size), anchor(math::Vec2f::zero),
+		color(COL_WHITE)
+	{
+	}
+
+	Sprite::Sprite(Texture * texture, math::Vec2f position, math::Vec2f size, Color color) :
+		texture(texture), position(position), size(size), anchor(math::Vec2f::zero),
+		color(color)
+	{
+	}
+
+	Sprite::Sprite(Color color, math::Vec2f position, math::Vec2f size) : 
+		texture(NULL), position(position), size(size), anchor(math::Vec2f::zero), color(color)
 	{
 	}
 

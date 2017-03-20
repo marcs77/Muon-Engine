@@ -199,7 +199,7 @@ namespace muongame {
 			renderer.drawModel(&transform, &nano);
 			*/
 
-			Sprite coso(t, {40*sinf(mapScroll),40}, {100,100});
+			Sprite coso(Color(COL_YELLOW), {10,10}, {200,100});
 
 			batchRenderer.begin();
 			batchRenderer.submit(coso);
@@ -254,6 +254,8 @@ int main(int argc, char* args[])
 
     TestGame game(&w);
     game.run();
+
+	//system("PAUSE");
 
     return 0;
 }

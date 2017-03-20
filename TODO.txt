@@ -14,9 +14,9 @@ x look at matrix
 
 - transforms
 - improve log.h
-- shader manager
+[] shader manager
 - materials
-- model loader
+[] model loader
 - ilumination (Phong shading)
 
 
