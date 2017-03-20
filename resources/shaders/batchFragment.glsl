@@ -14,7 +14,7 @@ out vec4 color;
 
 void main()
 {
-	/*
+
 	if(f_in.tid >= 0)
 	{
 		color = f_in.col * texture(tex[f_in.tid], f_in.uv);
@@ -22,6 +22,7 @@ void main()
 	{
 		color = f_in.col;
 	}
-	*/
-	color = vec4(1,1,1,1);
+
+	//color = texture(tex[0], f_in.uv);
+	//color = f_in.col;
 }
