@@ -126,7 +126,13 @@ namespace graphics {
 				//TODO: Check if the file is null
 				std::string relPath = std::string(str.C_Str());
 				Texture *t = TextureManager::instance().loadTexture((get_directory(path) + relPath).c_str(), type);
-				textures.push_back(t);
+				if (t) {
+					textures.push_back(t);
+				}
+				else {
+					ERR("Model loader: couldn't load texture.");
+				}
+				
 			}
 
 		}

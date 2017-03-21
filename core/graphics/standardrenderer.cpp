@@ -30,7 +30,10 @@ namespace graphics {
 			{
 				if (diffuseN >= MAX_DIFFUSE) break;
 				glActiveTexture(GL_TEXTURE0 + diffuseN++);
-				mesh->textures[i]->bind();
+				Texture *currentTexture = mesh->textures[i];
+				if (currentTexture) {
+					currentTexture->bind();
+				}
 			}
 		}
 
