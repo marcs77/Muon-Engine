@@ -1,5 +1,5 @@
 #include "meshdata.h"
-#include "../../util/log.h"
+
 namespace muon {
 namespace graphics {
 	MeshData::MeshData() : _vao(NULL), _vbo(NULL), _ebo(NULL), _indexCount(0)

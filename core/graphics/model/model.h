@@ -1,11 +1,13 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include "common.h"
 #include <vector>
 #include "meshdata.h"
-#include <assimp\Importer.hpp>
-#include <assimp\scene.h>
-#include <assimp\postprocess.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 
 namespace muon {
 namespace graphics {

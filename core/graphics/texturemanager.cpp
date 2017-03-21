@@ -35,7 +35,7 @@ namespace muon {
 			//pointer to the image data
 			BYTE* bits(0);
 			//image width and height
-			unsigned int width(0), height(0);
+			uint32 width(0), height(0);
 			//OpenGL's image ID to map to
 			GLuint gl_texID = 0;
 
@@ -70,7 +70,7 @@ namespace muon {
 			width = FreeImage_GetWidth(dib);
 			height = FreeImage_GetHeight(dib);
 			//INFO(width << "x" << height);
-			unsigned int bpp = FreeImage_GetBPP(dib) / 8;
+			uint32 bpp = FreeImage_GetBPP(dib) / 8;
 			//if this somehow one of these failed (they shouldn't), return failure
 			if ((bits == 0) || (width == 0) || (height == 0)) {
 				ERR("Could not load texture: Invalid image.");

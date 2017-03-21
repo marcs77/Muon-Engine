@@ -1,6 +1,8 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+#include "../types.h"
+
 #define COL_WHITE		0xFFFFFFFF
 #define COL_LIGHT_GREY	0xBDBDBDFF
 #define COL_GREY		0x7F7F7FFF
@@ -21,15 +23,15 @@ namespace muon {
 	struct Color {
 
 		union {
-			unsigned int hex;
+			uint32 hex;
 			struct {
-				unsigned char a, b, g, r;
+				byte a, b, g, r;
 			};
 		};
 
 		Color();
-		Color(unsigned int h);
-		Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+		Color(uint32 h);
+		Color(byte r, byte g, byte b, byte a);
 		Color(math::Vec4f vec);
 
 		inline math::Vec4f getColor4f() const { return math::Vec4f(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f); }

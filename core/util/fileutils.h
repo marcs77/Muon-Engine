@@ -1,8 +1,8 @@
 #ifndef FILEUTILS_H
 #define FILEUTILS_H
 
+#include "..\common.h"
 #include <string.h>
-#include "log.h"
 
 namespace muon {
 	

@@ -1,5 +1,4 @@
 #include "model.h"
-#include "../../util/log.h"
 #include "../texturemanager.h"
 #include "../../util/fileutils.h"
 

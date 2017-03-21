@@ -1,15 +1,16 @@
 #ifndef DEBUGRENDERER_H
 #define DEBUGRENDERER_H
+
+#include "../common.h"
 #include "shader/shader.h"
 #include "shader/shadermanager.h"
 #include <vector>
 #include "../math/vec3.h"
 #include "buffer/buffer.h"
 #include "buffer/vertexarray.h"
-#include "../util/log.h"
 #include "mat4.h"
 #include "../math/aabb.h"
-#include "util/color.h"
+
 
 namespace muon {
 namespace graphics {

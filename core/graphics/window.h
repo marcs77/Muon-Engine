@@ -3,8 +3,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "../util/log.h"
-#include "../util/color.h"
+#include "common.h"
 
 namespace muon { namespace graphics {
 	class Window {

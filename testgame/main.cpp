@@ -85,7 +85,7 @@ namespace muongame {
         void loadResources() {
             t = TextureManager::instance().loadTexture("resources/textures/test.png");
             t2 = TextureManager::instance().loadTexture("resources/textures/test2.png");
-            t3 = TextureManager::instance().loadTexture("resources/textures/fat.jpg");
+            t3 = TextureManager::instance().loadTexture("resources/textures/test3.jpg");
 
             mapShader = new Shader("resources/shaders/mapVertex.glsl", "resources/shaders/mapFragment.glsl");
             standard = new Shader("resources/shaders/simpleVertex.glsl", "resources/shaders/simpleFragment.glsl");

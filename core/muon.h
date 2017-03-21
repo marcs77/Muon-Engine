@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common.h"
+
 #include "graphics/batchrenderer2d.h"
 //#include "graphics/renderable2d.h"
 //#include "graphics/renderer2d.h"

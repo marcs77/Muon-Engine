@@ -1,6 +1,7 @@
 #ifndef MESHDATA_H
 #define MESHDATA_H
 
+#include "../../common.h"
 #include "../../math/vec3.h"
 #include "../buffer/buffer.h"
 #include "../buffer/vertexarray.h"

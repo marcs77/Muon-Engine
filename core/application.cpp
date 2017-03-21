@@ -1,5 +1,4 @@
 #include "application.h"
-#include "util/log.h"
 #include "build_info.h"
 #include "input/input.h"
 
