@@ -10,6 +10,7 @@
 
 namespace muon {
 	namespace graphics {
+        
 		class TextureManager {
 		public:
 
@@ -41,6 +42,8 @@ namespace muon {
 			void unloadAllTextures();
 
 			Texture* getTexture(std::string textureName);
+            
+            void loadImage(FIBITMAP* bitmap, std::string texturePath);
 
 		private:
             std::unordered_map<std::string, Texture*> _textures;

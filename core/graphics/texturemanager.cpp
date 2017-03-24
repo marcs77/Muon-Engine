@@ -18,6 +18,42 @@ namespace muon {
 			FreeImage_DeInitialise();
 #endif
 		}
+        
+        void TextureManager::loadImage(FIBITMAP* bitmap, std::string texturePath) 
+        {
+            //image format
+			FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+			//pointer to the image, once loaded
+			//OpenGL's image ID to map to
+			GLuint gl_texID = 0;
+
+			//check the file signature and deduce its format
+			fif = FreeImage_GetFileType(texturePath.c_str(), 0);
+			//if still unknown, try to guess the file format from the file extension
+			if (fif == FIF_UNKNOWN)
+				fif = FreeImage_GetFIFFromFilename(texturePath.c_str());
+			//if still unkown, return failure
+			if (fif == FIF_UNKNOWN) {
+				ERR("Could not load image ( " << texturePath << " ): Format not recognised.");
+			}
+
+			//check that the plugin has reading capabilities and load the file
+			if (FreeImage_FIFSupportsReading(fif))
+				bitmap = FreeImage_Load(fif, texturePath.c_str());
+			else
+                ERR("Could not load image ( " << texturePath << " ): Image format not supported.");
+
+			//if the image failed to load, return failure
+			if (!bitmap) {
+                ERR("Could not load image ( " << texturePath << " ): Image failed to load.");
+			}
+            
+			//if this somehow one of these failed (they shouldn't), return failure
+			if ((FreeImage_GetBits(bitmap) == 0) || (FreeImage_GetWidth(bitmap) == 0) || (FreeImage_GetHeight(bitmap) == 0) ||
+                FreeImage_GetBPP(bitmap) == 0) {
+				ERR("Could not load image ( " << texturePath << " ): Invalid image.");
+			}
+        }
 
 		Texture* TextureManager::loadTexture(
 			std::string textureName,
@@ -29,57 +65,28 @@ namespace muon {
 		{
 
 			//image format
-			FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-			//pointer to the image, once loaded
-			FIBITMAP *dib(0);
-			//pointer to the image data
-			BYTE* bits(0);
-			//image width and height
-			uint32 width(0), height(0);
-			//OpenGL's image ID to map to
-			GLuint gl_texID = 0;
 
-			//check the file signature and deduce its format
-			fif = FreeImage_GetFileType(path, 0);
-			//if still unknown, try to guess the file format from the file extension
-			if (fif == FIF_UNKNOWN)
-				fif = FreeImage_GetFIFFromFilename(path);
-			//if still unkown, return failure
-			if (fif == FIF_UNKNOWN) {
-				ERR("Could not load texture: Image format not recognised.");
-				return NULL;
-			}
-
-			//check that the plugin has reading capabilities and load the file
-			if (FreeImage_FIFSupportsReading(fif))
-				dib = FreeImage_Load(fif, path);
-			else
-				ERR("Could not load texture: Image format not supported.");
-
-			//if the image failed to load, return failure
-			if (!dib) {
-				ERR("Could not load texture: Image failed to load.");
-				return NULL;
-			}
-
-			//FreeImage_FlipVertical(dib);
+			FIBITMAP *dib = NULL;
+			loadImage(dib, path);
+            
+            if(!dib) 
+            {
+                ERR("Failed to load texture: " << path);
+                return NULL;
+            }
 
 			//retrieve the image data
-			bits = FreeImage_GetBits(dib);
+			byte* bits = FreeImage_GetBits(dib);
 			//get the image width and height
-			width = FreeImage_GetWidth(dib);
-			height = FreeImage_GetHeight(dib);
+			uint32 width = FreeImage_GetWidth(dib);
+			uint32 height = FreeImage_GetHeight(dib);
 			//INFO(width << "x" << height);
 			uint32 bpp = FreeImage_GetBPP(dib) / 8;
-			//if this somehow one of these failed (they shouldn't), return failure
-			if ((bits == 0) || (width == 0) || (height == 0)) {
-				ERR("Could not load texture: Invalid image.");
-				return NULL;
-			}
 
 			//if this texture ID is in use, unload the current texture
 			if (_textures[textureName] != NULL) _textures.erase(textureName);
 
+            GLuint gl_texID;
 			//generate an OpenGL texture ID for this texture
 			glGenTextures(1, &gl_texID);
 			//store the texture ID mapping
