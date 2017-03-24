@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="MuonEngine" Version="10.0.0" InternalType="">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
+  <VirtualDirectory Name="core">
+    <VirtualDirectory Name="graphics">
+      <VirtualDirectory Name="buffer">
+        <File Name="core/graphics/buffer/vertexarray.h"/>
+        <File Name="core/graphics/buffer/buffer.h"/>
+        <File Name="core/graphics/buffer/vertexarray.cpp"/>
+        <File Name="core/graphics/buffer/buffer.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="shader">
+        <File Name="core/graphics/shader/shadermanager.h"/>
+        <File Name="core/graphics/shader/shadermanager.cpp"/>
+        <File Name="core/graphics/shader/shader.h"/>
+        <File Name="core/graphics/shader/shader.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="model">
+        <File Name="core/graphics/model/meshdata.cpp"/>
+        <File Name="core/graphics/model/meshdata.h"/>
+        <File Name="core/graphics/model/model.cpp"/>
+        <File Name="core/graphics/model/model.h"/>
+      </VirtualDirectory>
+      <File Name="core/graphics/window.cpp"/>
+      <File Name="core/graphics/debugrenderer.cpp"/>
+      <File Name="core/graphics/texture.h"/>
+      <File Name="core/graphics/standardrenderer.cpp"/>
+      <File Name="core/graphics/texturemanager.h"/>
+      <File Name="core/graphics/standardrenderer.h"/>
+      <File Name="core/graphics/window.h"/>
+      <File Name="core/graphics/batchrenderer2d.h"/>
+      <File Name="core/graphics/texture.cpp"/>
+      <File Name="core/graphics/debugrenderer.h"/>
+      <File Name="core/graphics/batchrenderer2d.cpp"/>
+      <File Name="core/graphics/texturemanager.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="util">
+      <File Name="core/util/timer.cpp"/>
+      <File Name="core/util/color.h"/>
+      <File Name="core/util/log.h"/>
+      <File Name="core/util/timer.h"/>
+      <File Name="core/util/fileutils.h"/>
+      <File Name="core/util/fileutils.cpp"/>
+      <File Name="core/util/color.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="math">
+      <File Name="core/math/mathutils.h"/>
+      <File Name="core/math/vec3.h"/>
+      <File Name="core/math/rectangle.h"/>
+      <File Name="core/math/mat4.cpp"/>
+      <File Name="core/math/lingeom.h"/>
+      <File Name="core/math/quaternion.cpp"/>
+      <File Name="core/math/vec4.h"/>
+      <File Name="core/math/quaternion.h"/>
+      <File Name="core/math/vec2.h"/>
+      <File Name="core/math/aabb.h"/>
+      <File Name="core/math/mat4.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="input">
+      <File Name="core/input/input.h"/>
+      <File Name="core/input/input.cpp"/>
+    </VirtualDirectory>
+    <File Name="core/common.h"/>
+    <File Name="core/muon.cpp"/>
+    <File Name="core/muon.h"/>
+    <File Name="core/types.h"/>
+    <File Name="core/application.h"/>
+    <File Name="core/application.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="testgame">
+    <VirtualDirectory Name="resources">
+      <VirtualDirectory Name="shaders">
+        <File Name="testgame/resources/shaders/simpleVertex.glsl"/>
+        <File Name="testgame/resources/shaders/mapFragment.glsl"/>
+        <File Name="testgame/resources/shaders/simpleFragment.glsl"/>
+        <File Name="testgame/resources/shaders/mapVertex.glsl"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <File Name="testgame/debugcam.cpp"/>
+    <File Name="testgame/main.cpp"/>
+    <File Name="testgame/debugcam.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="resources">
+    <VirtualDirectory Name="shaders">
+      <File Name="resources/shaders/debugFragment.glsl"/>
+      <File Name="resources/shaders/standardVertex.glsl"/>
+      <File Name="resources/shaders/standardFragment.glsl"/>
+      <File Name="resources/shaders/debugVertex.glsl"/>
+      <File Name="resources/shaders/batchVertex.glsl"/>
+      <File Name="resources/shaders/basicFragment.glsl"/>
+      <File Name="resources/shaders/basicVertex.glsl"/>
+      <File Name="resources/shaders/batchFragment.glsl"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Description/>
+  <Dependencies/>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="$(WorkspacePath)/cmake-build-$(WorkspaceConfiguration)/testgame/TestGame" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/cmake-build-$(WorkspaceConfiguration)/workingDir" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="CMake">-DBUILD_TESTGAME=ON</BuildSystem>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)/cmake-build-Debug</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-O2" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Release" Command="$(WorkspacePath)/cmake-build-$(WorkspaceConfiguration)/bin/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="CMake">-DBUILD_TESTGAME=ON</BuildSystem>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
