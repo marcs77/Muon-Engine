@@ -10,7 +10,7 @@ endif()
 set(MuonEngine_VERSION_MAJOR 0)
 set(MuonEngine_VERSION_MINOR 1)
 
-option(BUILD_TESTGAME "Build test game." ON)
+option(BUILD_GAME "Build game." "testgame")
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/build_info.h.in"
@@ -43,9 +43,9 @@ set_property(TARGET assimp PROPERTY FOLDER "dependencies")
 
 #Engine
 add_subdirectory (core)
-if(BUILD_TESTGAME)
-	add_subdirectory (testgame)
-endif(BUILD_TESTGAME)
+if(EXISTS BUILD_GAME)
+	add_subdirectory (BUILD_GAME)
+endif()
 
 if(WIN32 OR WIN64)
 	file(COPY ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/FreeImage.dll DESTINATION ${PROJECT_BINARY_DIR}/workingDir)
