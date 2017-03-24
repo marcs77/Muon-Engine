@@ -1,7 +1,7 @@
 #ifndef TEXTURE_MANAGER_H
 #define TEXTURE_MANAGER_H
 
-#include "..\common.h"
+#include "../common.h"
 #include "texture.h"
 #include <FreeImage.h>
 #include <string>
