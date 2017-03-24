@@ -81,6 +81,8 @@ namespace muongame {
 		std::vector<Vertex> verts;
 		std::vector<GLuint> indices;
 		std::vector<Texture*> tex;
+        
+        bool cursorLock = true;
 
         void loadResources() {
             t = TextureManager::instance().loadTexture("resources/textures/test.png");
@@ -141,6 +143,12 @@ namespace muongame {
         }
 
         void update(double deltaTime) {
+            
+            if(input::Input::isKeyPressed(GLFW_KEY_ESCAPE)) {
+                cursorLock = !cursorLock;
+                glfwSetInputMode(window->getWindow(), GLFW_CURSOR, cursorLock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+            }
+            
             cam.update(deltaTime);
 
             //map update

@@ -30,7 +30,7 @@ namespace muon {
             glfwPollEvents();
 
 
-            if (input::Input::isKeyPressed(GLFW_KEY_ESCAPE)) window->close();
+            //if (input::Input::isKeyPressed(GLFW_KEY_ESCAPE)) window->close();
 
             update(deltaTime);
 
