@@ -19,10 +19,11 @@ namespace muon {
 #endif
 		}
         
-        void TextureManager::loadImage(FIBITMAP* bitmap, std::string texturePath) 
+        void TextureManager::loadImage(FIBITMAP** bmpPointer, std::string texturePath) 
         {
             //image format
 			FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+            FIBITMAP *bitmap = NULL;
 			//pointer to the image, once loaded
 			//OpenGL's image ID to map to
 			GLuint gl_texID = 0;
@@ -53,6 +54,8 @@ namespace muon {
                 FreeImage_GetBPP(bitmap) == 0) {
 				ERR("Could not load image ( " << texturePath << " ): Invalid image.");
 			}
+            
+            *bmpPointer = bitmap;
         }
 
 		Texture* TextureManager::loadTexture(
@@ -65,9 +68,9 @@ namespace muon {
 		{
 
 			//image format
-
+            
 			FIBITMAP *dib = NULL;
-			loadImage(dib, path);
+			loadImage(&dib, path);
             
             if(!dib) 
             {

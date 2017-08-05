@@ -1,0 +1,2 @@
+#define ME_VERSION_MAJOR 0
+#define ME_VERSION_MINOR 1

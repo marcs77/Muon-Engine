@@ -43,7 +43,7 @@ namespace muon {
 
 			Texture* getTexture(std::string textureName);
             
-            void loadImage(FIBITMAP* bitmap, std::string texturePath);
+            void loadImage(FIBITMAP** bmpPointer, std::string texturePath);
 
 		private:
             std::unordered_map<std::string, Texture*> _textures;

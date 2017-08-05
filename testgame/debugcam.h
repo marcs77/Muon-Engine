@@ -1,7 +1,7 @@
 #ifndef DEBUG_CAM_H
 #define DEBUG_CAM_H
 
-#include "muon.h"
+#include <muon.h>
 namespace muongame {
 
     using namespace muon;

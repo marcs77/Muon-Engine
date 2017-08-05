@@ -43,9 +43,9 @@ set_property(TARGET assimp PROPERTY FOLDER "dependencies")
 
 #Engine
 add_subdirectory (core)
-if(EXISTS BUILD_GAME)
-	add_subdirectory (BUILD_GAME)
-endif()
+
+message("Building ${BUILD_GAME}")
+add_subdirectory(${BUILD_GAME})
 
 if(WIN32 OR WIN64)
 	file(COPY ${CMAKE_SOURCE_DIR}/dependencies/FreeImage/libs/FreeImage.dll DESTINATION ${PROJECT_BINARY_DIR}/workingDir)

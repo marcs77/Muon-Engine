@@ -82,7 +82,7 @@ namespace muongame {
 		std::vector<GLuint> indices;
 		std::vector<Texture*> tex;
         
-        bool cursorLock = true;
+        bool cursorLock = false;
 
         void loadResources() {
             t = TextureManager::instance().loadTexture("resources/textures/test.png");
@@ -125,10 +125,12 @@ namespace muongame {
 
         void init() {
 
-            INFO(Vec3f(2,-3,1).normalized());
-
-            glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+            
+            
+            
+            if(cursorLock) {
+                glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            }
             ShaderManager::useShader(mapShader);
             ShaderManager::setProjectionMatrix(Mat4::perspective(80, window->getAspectRatio(), 0.1f, 500.0f));
 

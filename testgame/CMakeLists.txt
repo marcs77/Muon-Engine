@@ -1,4 +1,6 @@
-include_directories ("${PROJECT_SOURCE_DIR}/core")
+project(TestGame)
+
+include_directories ("../core")
 
 file(GLOB MUON_GAME_INCLUDE "*.h")
 file(GLOB MUON_GAME_SRC "*.cpp")
